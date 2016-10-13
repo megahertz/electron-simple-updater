@@ -1,0 +1,5 @@
+{
+  "updater": {
+    "url": "https://example.com/updates.json"
+  }
+}
