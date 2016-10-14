@@ -1,10 +1,13 @@
 'use strict';
 
 const {app, BrowserWindow} = require('electron');
-const updater              = require('electron-simple-updater');
+const updater              = require('../../index');
+//const updater              = require('electron-simple-updater');
 
 
-updater.init();
+updater.init({
+  logger: require('electron-log')
+});
 
 let mainWindow;
 app.on('ready', () => {
