@@ -4,11 +4,33 @@ const { autoUpdater } = require('electron');
 const events          = require('events');
 
 const win32            = require('./lib/win32');
+const linux            = require('./lib/linux');
 const getUpdatesMeta   = require('./lib/get-updates-meta');
 const normalizeOptions = require('./lib/normalize-options');
 
 
 class SimpleUpdater extends events.EventEmitter {
+  constructor() {
+    super();
+
+    /**
+     * @event update-downloaded
+     * @param {Object} meta Update metadata
+     */
+    autoUpdater.on('update-downloaded', () => {
+      const version = this.meta.version;
+      this.options.logger.info(`New version ${version} has been downloaded`);
+      this.emit('update-downloaded', this.meta);
+    });
+
+    this.on('error', (e) => {
+      if (this.options.logger) {
+        this.options.logger.warn(e);
+      }
+    });
+    autoUpdater.on('error', e => this.emit('error', e));
+  }
+
   init(options) {
     if (this.options) {
       this.options.logger.warn(
@@ -30,15 +52,7 @@ class SimpleUpdater extends events.EventEmitter {
       this.checkForUpdates();
     }
 
-    /**
-     * @event update-downloaded
-     * @param {Object} meta Update metadata
-     */
-    autoUpdater.on('update-downloaded', () => {
-      const version = this.meta.version;
-      this.options.logger.info(`New version ${version} has been downloaded`);
-      this.emit('update-downloaded', this.meta);
-    });
+    return this;
   }
 
   setFeedURL(url) {
@@ -71,13 +85,15 @@ class SimpleUpdater extends events.EventEmitter {
           this.emit('update-not-available');
         }
       })
-      .catch((e) => {
-        opt.logger.warn(e);
-        this.emit('error', e);
-      });
+      .catch(e => this.emit('error', e));
   }
 
   downloadUpdate() {
+    if (!this.meta) {
+      const msg = 'There is no metadata for update. Run checkForUpdates first.';
+      this.emit('error', msg);
+    }
+
     let feedUrl = autoUpdater.getFeedURL();
     /**
      * @event update-downloading
@@ -85,9 +101,16 @@ class SimpleUpdater extends events.EventEmitter {
      */
     this.emit('update-downloading', this.meta);
 
-
     if (this.meta.platform === 'linux') {
       feedUrl = this.meta.updateUrl;
+
+      linux.downloadUpdate(feedUrl)
+        .then(() => {
+          const version = this.meta.version;
+          this.options.logger.info(`New version ${version} has been downloaded`);
+          this.emit('update-downloaded', this.meta);
+        })
+        .catch(e => this.emit('error', e));
     } else {
       autoUpdater.checkForUpdates();
     }
@@ -142,7 +165,7 @@ class SimpleUpdater extends events.EventEmitter {
 
   checkIsInitialized() {
     if (!this.options) {
-      console.warn('electron-simple-updater is not initialized');
+      this.emit('error', 'electron-simple-updater is not initialized');
       return false;
     } else {
       return true;

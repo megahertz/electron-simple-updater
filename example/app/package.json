@@ -1,7 +1,7 @@
 {
   "name": "simple-updater-example",
   "productName": "Simple Updater Example",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Example of using electron-simple-updater",
   "main": "main.js",
   "author": "Alexey Prokhorov",
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "electron-log": "^1.1.1",
-    "electron-simple-updater": "0.0.4"
+    "electron-simple-updater": "0.0.19"
   }
 }

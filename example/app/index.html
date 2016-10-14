@@ -10,9 +10,12 @@
     table { table-layout: fixed }
     .pre { white-space: pre; overflow: auto }
     col { width: 80px }
+    .alert { white-space: pre; overflow: auto }
   </style>
 </head>
 <body>
+
+<div id="messages"></div>
 
 <table class="table table-hover">
   <colgroup>
@@ -28,8 +31,12 @@
 </table>
 
 <script>
-  const { remote } = require('electron');
+  const { remote, ipcRenderer } = require('electron');
   const { app } = remote;
+
+  ipcRenderer.on('update-available', (e, m) => showMessage('Update found', m));
+  ipcRenderer.on('update-not-available', () => showMessage('Update not found'));
+  ipcRenderer.on('update-downloaded', (e, m) => showMessage('Update downloaded', m));
 
   renderData([
     ['Command line', JSON.stringify(remote.process.argv, null, '  '), 'pre'],
@@ -42,6 +49,16 @@
     ['ENV', JSON.stringify(remote.process.env, null, '  '), 'pre'],
   ]);
 
+  function showMessage(text, meta) {
+    if (meta) {
+      text += ': ' + JSON.stringify(meta, null, '  ');
+    }
+    const messages = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = 'alert alert-info';
+    div.appendChild(document.createTextNode(text));
+    messages.appendChild(div);
+  }
 
   function renderData(data) {
     const tableBody = document.getElementById('rows');
