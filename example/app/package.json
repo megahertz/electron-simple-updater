@@ -13,6 +13,7 @@
     "url": "https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/updates.json"
   },
   "dependencies": {
+    "electron-log": "^1.1.1",
     "electron-simple-updater": "0.0.4"
   }
 }
