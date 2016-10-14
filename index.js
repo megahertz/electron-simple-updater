@@ -56,7 +56,7 @@ class SimpleUpdater extends events.EventEmitter {
   checkForUpdates() {
     const opt = this.options;
 
-    if (opts.disabled) {
+    if (opt.disabled) {
       opt.logger.warn(`Update is disabled`);
     }
 
@@ -65,7 +65,7 @@ class SimpleUpdater extends events.EventEmitter {
         if (updateMeta) {
           this.onFoundUpdate(updateMeta);
         } else {
-          opt.logger.log(`Updates for ${this.build} are not available`);
+          opt.logger.log(`Updates for ${this.options.build} are not available`);
           this.emit('update-not-available');
         }
       })

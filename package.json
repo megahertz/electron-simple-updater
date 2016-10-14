@@ -1,6 +1,6 @@
 {
   "name": "electron-simple-updater",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Simple way to enable update for the electron application",
   "main": "index.js",
   "scripts": {
