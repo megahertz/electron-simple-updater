@@ -36,7 +36,7 @@ class SimpleUpdater extends events.EventEmitter {
      */
     autoUpdater.on('update-downloaded', () => {
       const version = this.meta.version;
-      this.options.logger.log(`New version ${version} has been downloaded`);
+      this.options.logger.info(`New version ${version} has been downloaded`);
       this.emit('update-downloaded', this.meta);
     });
   }
@@ -50,7 +50,8 @@ class SimpleUpdater extends events.EventEmitter {
   }
 
   getFeedURL() {
-    return this.options ? this.options.url : null;
+    if (!this.checkIsInitialized()) return;
+    returnthis.options.url;
   }
 
   checkForUpdates() {
@@ -65,7 +66,8 @@ class SimpleUpdater extends events.EventEmitter {
         if (updateMeta) {
           this.onFoundUpdate(updateMeta);
         } else {
-          opt.logger.log(`Updates for ${this.options.build} are not available`);
+          opt.logger.info(
+            `Updates for ${this.buildId} are not available`);
           this.emit('update-not-available');
         }
       })
@@ -82,7 +84,7 @@ class SimpleUpdater extends events.EventEmitter {
      * @param {Object} meta Update metadata
      */
     this.emit('update-downloading', this.meta);
-    this.options.logger.log(`Downloading updates from ${feedUrl}`);
+    this.options.logger.info(`Downloading updates from ${feedUrl}`);
 
     if (this.meta.platform === 'linux') {
 
@@ -95,6 +97,26 @@ class SimpleUpdater extends events.EventEmitter {
     return autoUpdater.quitAndInstall();
   }
 
+  get build() {
+    if (!this.checkIsInitialized()) return;
+    return this.options.build;
+  }
+
+  get buildId() {
+    if (!this.checkIsInitialized()) return;
+    return `${this.build}-${this.channel}-v${this.version}`;
+  }
+
+  get channel() {
+    if (!this.checkIsInitialized()) return;
+    return this.options.channel;
+  }
+
+  get version() {
+    if (!this.checkIsInitialized()) return;
+    return this.options.version;
+  }
+
   /**
    * Called when updates metadata has been downloaded
    * @private
@@ -104,7 +126,7 @@ class SimpleUpdater extends events.EventEmitter {
     this.meta = meta;
     const opt = this.options;
 
-    opt.logger.log(`Found version ${meta.name} at '${meta.updateUrl}'`);
+    opt.logger.info(`Found version ${meta.name} at '${meta.updateUrl}'`);
     autoUpdater.setFeedURL(meta.updateUrl);
     /**
      * @event update-available
@@ -113,6 +135,15 @@ class SimpleUpdater extends events.EventEmitter {
     this.emit('update-available', meta);
     if (opt.autoDownload) {
       this.downloadUpdate();
+    }
+  }
+
+  checkIsInitialized() {
+    if (!this.options) {
+      console.warn('electron-simple-updater is not initialized');
+      return false;
+    } else {
+      return true;
     }
   }
 }
