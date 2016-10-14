@@ -117,4 +117,4 @@ class SimpleUpdater extends events.EventEmitter {
   }
 }
 
-return new SimpleUpdater();
+module.exports = new SimpleUpdater();

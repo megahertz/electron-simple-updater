@@ -14,7 +14,8 @@
     "appId": "megahertz.electron-simple-updater-example",
     "mac": {
       "category": "public.app-category.developer-tools"
-    }
+    },
+    "iconUrl": "http://electron.atom.io/images/favicon.ico"
   },
   "engines": {
     "node": ">=6.0"

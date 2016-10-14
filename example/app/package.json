@@ -9,6 +9,9 @@
   "engines": {
     "node": ">=6.0"
   },
+  "updater": {
+    "url": "https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/updates.json"
+  },
   "dependencies": {
     "electron-simple-updater": "*"
   }
