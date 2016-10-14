@@ -1,0 +1,15 @@
+{
+  "name": "simple-updater-example",
+  "productName": "Simple Updater Example",
+  "version": "0.0.1",
+  "description": "Example of using electron-simple-updater",
+  "main": "main.js",
+  "author": "Alexey Prokhorov",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.0"
+  },
+  "dependencies": {
+    "electron-simple-updater": "*"
+  }
+}

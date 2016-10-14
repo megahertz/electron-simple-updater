@@ -1,0 +1,26 @@
+{
+  "name": "electron-simple-updater-example",
+  "description": "Example of using electron-simple-updater",
+  "main": "app/main.js",
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "start": "node_modules/.bin/electron ./app",
+    "dist": "build"
+  },
+  "author": "Alexey Prokhorov",
+  "license": "MIT",
+  "private": true,
+  "build": {
+    "appId": "megahertz.electron-simple-updater-example",
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    }
+  },
+  "engines": {
+    "node": ">=6.0"
+  },
+  "devDependencies": {
+    "electron": "*",
+    "electron-builder": "7.8.0"
+  }
+}

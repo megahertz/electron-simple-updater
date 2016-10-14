@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example of using electron-simple-updater</title>
+  <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody id="rows"></tbody>
+</table>
+
+<script>
+  const { remote } = require('electron');
+  const { app } = remote;
+
+  renderData([
+    ['Command line', JSON.stringify(remote.process.argv, null, '  ')],
+    ['Executable', app.getPath('exe')],
+    ['App Path', app.getAppPath()],
+    ['App data path', app.getPath('appData')],
+    ['User data path', app.getPath('userData')],
+    ['Resource path', remote.process.resourcesPath],
+    ['App version', app.getVersion()],
+  ]);
+
+
+  function renderData(data) {
+    const tableBody = document.getElementById('rows');
+    data
+      .map(([name, value]) => {
+        const tr = document.createElement('tr');
+
+        const td1 = document.createElement('td');
+        td1.appendChild(document.createTextNode(name));
+
+        const td2 = document.createElement('td');
+        td2.appendChild(document.createTextNode(value));
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+
+        return tr;
+      })
+      .forEach((node) => {
+        tableBody.appendChild(node);
+      });
+  }
+</script>
+
+</body>
+</html>
