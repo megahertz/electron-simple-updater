@@ -6,10 +6,18 @@
   <link
     rel="stylesheet"
     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+    table { table-layout: fixed }
+    .pre { white-space: pre; overflow: auto }
+    col { width: 80px }
+  </style>
 </head>
 <body>
 
 <table class="table table-hover">
+  <colgroup>
+    <col>
+  </colgroup>
   <thead>
     <tr>
       <th>Name</th>
@@ -24,20 +32,21 @@
   const { app } = remote;
 
   renderData([
-    ['Command line', JSON.stringify(remote.process.argv, null, '  ')],
+    ['Command line', JSON.stringify(remote.process.argv, null, '  '), 'pre'],
     ['Executable', app.getPath('exe')],
     ['App Path', app.getAppPath()],
     ['App data path', app.getPath('appData')],
     ['User data path', app.getPath('userData')],
     ['Resource path', remote.process.resourcesPath],
     ['App version', app.getVersion()],
+    ['ENV', JSON.stringify(remote.process.env, null, '  '), 'pre'],
   ]);
 
 
   function renderData(data) {
     const tableBody = document.getElementById('rows');
     data
-      .map(([name, value]) => {
+      .map(([name, value, className]) => {
         const tr = document.createElement('tr');
 
         const td1 = document.createElement('td');
@@ -45,6 +54,9 @@
 
         const td2 = document.createElement('td');
         td2.appendChild(document.createTextNode(value));
+        if (className) {
+          td2.classList.add(className);
+        }
 
         tr.appendChild(td1);
         tr.appendChild(td2);

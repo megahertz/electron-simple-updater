@@ -1,8 +1,7 @@
 'use strict';
 
 const {app, BrowserWindow} = require('electron');
-const updater              = require('../../index');
-//const updater              = require('electron-simple-updater');
+const updater              = require('electron-simple-updater');
 
 
 updater.init({

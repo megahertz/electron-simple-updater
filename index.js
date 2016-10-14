@@ -78,19 +78,21 @@ class SimpleUpdater extends events.EventEmitter {
   }
 
   downloadUpdate() {
-    const feedUrl = autoUpdater.getFeedURL();
+    let feedUrl = autoUpdater.getFeedURL();
     /**
      * @event update-downloading
      * @param {Object} meta Update metadata
      */
     this.emit('update-downloading', this.meta);
-    this.options.logger.info(`Downloading updates from ${feedUrl}`);
+
 
     if (this.meta.platform === 'linux') {
-
+      feedUrl = this.meta.updateUrl;
     } else {
       autoUpdater.checkForUpdates();
     }
+
+    this.options.logger.info(`Downloading updates from ${feedUrl}`);
   }
 
   quitAndInstall() {
@@ -126,7 +128,7 @@ class SimpleUpdater extends events.EventEmitter {
     this.meta = meta;
     const opt = this.options;
 
-    opt.logger.info(`Found version ${meta.name} at '${meta.updateUrl}'`);
+    opt.logger.info(`Found version ${meta.version} at ${meta.updateUrl}`);
     autoUpdater.setFeedURL(meta.updateUrl);
     /**
      * @event update-available
