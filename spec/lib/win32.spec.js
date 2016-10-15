@@ -1,11 +1,6 @@
 'use strict';
 
-const chai      = require('chai');
-const sinon     = require('sinon');
-const sinonChai = require('sinon-chai');
-const expect    = chai.expect;
-chai.use(sinonChai);
-
+const { expect } = require('chai');
 const win32      = require('../../lib/win32');
 
 

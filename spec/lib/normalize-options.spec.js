@@ -18,7 +18,6 @@ describe('normalize-options lib', () => {
   });
 
   afterEach(() => {
-
     Object.defineProperty(process, 'platform',     { value: this.originalPlatform });
     Object.defineProperty(process, 'arch',         { value: this.originalArch });
   });
@@ -32,10 +31,21 @@ describe('normalize-options lib', () => {
   });
 
   it('should read options from a package.json', () => {
-    expect(loadOptionsFromPackage({}))
-      .to.have.property('url', 'https://example.com/updates.json');
+    expect(loadOptionsFromPackage()).to.deep.equal({
+      url: 'https://example.com/updates.json',
+      version: '0.0.1'
+    });
+  });
 
-    expect(loadOptionsFromPackage({ url: '123' }))
-      .to.have.property('url', '123');
+  it('should properly use default values', () => {
+    const opt1 = normalizeOptions();
+    expect(opt1).to.have.property('checkUpdateOnStart', true);
+    expect(opt1).to.have.property('autoDownload', true);
+    expect(opt1).to.have.property('url', 'https://example.com/updates.json');
+
+    const opt2 = normalizeOptions({
+      autoDownload: false
+    });
+    expect(opt2).to.have.property('autoDownload', false);
   });
 });

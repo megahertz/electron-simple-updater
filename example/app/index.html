@@ -6,85 +6,39 @@
   <link
     rel="stylesheet"
     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <style>
-    table { table-layout: fixed }
-    .pre { white-space: pre; overflow: auto }
-    col { width: 80px }
-    .alert { white-space: pre; overflow: auto }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="messages"></div>
+<main>
+  <section class="container-check">
+    <div class="right box">
+      <a class="btn btn-primary" id="btn-update">Check for Updates</a>
+      <label>
+        <input type="checkbox" id="automatically"> Install automatically
+      </label>
+    </div>
+    <div class="left box">
+      <label>Current version: <span id="version"></span></label>
+      <label>Current build: <span id="build"></span></label>
+    </div>
+  </section>
 
-<table class="table table-hover">
-  <colgroup>
-    <col>
-  </colgroup>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Value</th>
-    </tr>
-  </thead>
-  <tbody id="rows"></tbody>
-</table>
+  <section class="container-install">
+    <p>New version <span id="new-version"></span> is available.</p>
+    <p>Description: <span id="description"></span></p>
+    <a class="btn btn-primary" id="btn-install">Install</a>
+  </section>
+</main>
 
-<script>
-  const { remote, ipcRenderer } = require('electron');
-  const { app } = remote;
+<section class="log">
+  <label>Log messages</label>
+  <div id="log-messages" class="messages">
+    <p>[info] Starting the application</p>
+  </div>
+</section>
 
-  ipcRenderer.on('update-available', (e, m) => showMessage('Update found', m));
-  ipcRenderer.on('update-not-available', () => showMessage('Update not found'));
-  ipcRenderer.on('update-downloaded', (e, m) => showMessage('Update downloaded', m));
-
-  renderData([
-    ['Command line', JSON.stringify(remote.process.argv, null, '  '), 'pre'],
-    ['Executable', app.getPath('exe')],
-    ['App Path', app.getAppPath()],
-    ['App data path', app.getPath('appData')],
-    ['User data path', app.getPath('userData')],
-    ['Resource path', remote.process.resourcesPath],
-    ['App version', app.getVersion()],
-    ['ENV', JSON.stringify(remote.process.env, null, '  '), 'pre'],
-  ]);
-
-  function showMessage(text, meta) {
-    if (meta) {
-      text += ': ' + JSON.stringify(meta, null, '  ');
-    }
-    const messages = document.getElementById('messages');
-    const div = document.createElement('div');
-    div.className = 'alert alert-info';
-    div.appendChild(document.createTextNode(text));
-    messages.appendChild(div);
-  }
-
-  function renderData(data) {
-    const tableBody = document.getElementById('rows');
-    data
-      .map(([name, value, className]) => {
-        const tr = document.createElement('tr');
-
-        const td1 = document.createElement('td');
-        td1.appendChild(document.createTextNode(name));
-
-        const td2 = document.createElement('td');
-        td2.appendChild(document.createTextNode(value));
-        if (className) {
-          td2.classList.add(className);
-        }
-
-        tr.appendChild(td1);
-        tr.appendChild(td2);
-
-        return tr;
-      })
-      .forEach((node) => {
-        tableBody.appendChild(node);
-      });
-  }
-</script>
+<script src="renderer.js"></script>
 
 </body>
 </html>

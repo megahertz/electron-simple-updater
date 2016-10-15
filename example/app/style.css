@@ -1,0 +1,59 @@
+html,
+body { height: 100%; }
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+label { font-weight: normal; }
+
+main {
+  width: 9000px;
+  padding: 5px;
+  overflow: hidden;
+  transition: .3s ease;  }
+  .update-available main {
+    margin-left: -100vw;
+  }
+  .update-downloading main {
+    pointer-events: none;
+    opacity: .3;
+  }
+
+.container-install,
+.container-check {
+  width: 100vw;
+  float: left;
+  transition: .5s ease;
+}
+
+.container-install {
+  top: 5px;
+  left: 5px;
+}
+
+.container-check {
+  position: relative; }
+  .container-check label { display: block; }
+  .container-check .box:last-child { padding-left: 1em }
+
+.box {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.log {
+  display: flex;
+  flex-direction: column;
+  flex: 1; }
+  .log label { padding-left: 5px; }
+  .log .messages {
+    flex: 1;
+    padding: 5px;
+    overflow: auto;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    background: #f9f9f9;
+    border-top: 1px solid #ddd;
+  }
