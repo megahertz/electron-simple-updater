@@ -12,5 +12,12 @@
     "version": "0.0.2",
     "platform": "win32",
     "readme": "Second version"
+  },
+  "darwin-x64-prod": {
+    "updateUrl": "https://github.com/megahertz/electron-simple-updater/releases/download/example-darwin-x64-prod-v0.0.2/release.json",
+    "installerUrl": "https://github.com/megahertz/electron-simple-updater/releases/download/example-darwin-x64-prod-v0.0.2/Simple.Updater.Example-0.0.2.dmg",
+    "version": "0.0.2",
+    "platform": "darwin",
+    "readme": "Second version"
   }
 }
