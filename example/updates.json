@@ -4,13 +4,13 @@
     "installerUrl": "https://github.com/megahertz/electron-simple-updater/releases/download/example-linux-x64-prod-v0.0.2/simple-updater-example-0.0.2-x86_64.AppImage",
     "version": "0.0.2",
     "platform": "linux",
-    "readme": "First release"
+    "readme": "Second version"
   },
   "win32-x64-prod": {
     "updateUrl": "https://github.com/megahertz/electron-simple-updater/releases/download/example-win32-x64-prod-v0.0.2",
     "installerUrl": "https://github.com/megahertz/electron-simple-updater/releases/download/example-win32-x64-prod-v0.0.2/Simple.Updater.Example.Setup.0.0.2.exe",
     "version": "0.0.2",
     "platform": "win32",
-    "readme": "First release"
+    "readme": "Second version"
   }
 }
