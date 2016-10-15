@@ -56,14 +56,23 @@ class SimpleUpdater extends events.EventEmitter {
    * By default it finish the process if run by Squirrel.Windows installer
    *
    * @param {object|string} [options]
-   * @param {bool}   [options.autoDownload=true] Auto download update if found
-   * @param {string} [options.build] Build type, like 'linux-x64'
-   * @param {string} [options.channel=prod] Release channel, like 'beta'
-   * @param {bool}   [options.checkUpdateOnStart=true]
-   * @param {bool}   [options.disabled=false] Disable this package
-   * @param {object} [options.logger=console] Logger object like console,
-   *   electron-log or winston
-   * @param {string} [options.version] Current app version
+   * @param {bool}   [options.autoDownload=true] Automatically download an
+   *   update when it is found in updates.json
+   * @param {string} [options.build] Build type, like 'linux-x64' or 'win32-ia32'
+   * @param {string} [options.channel=prod] An application which is built for
+   *   channel like 'beta' will receive updates only from this channel
+   * @param {bool}   [options.checkUpdateOnStart=true] Check for updates
+   *   immediately when init() is called
+   * @param {bool}   [options.disabled=false] Disable update feature.
+   *   This option is set to true automatically for applications built for
+   *   Mac AppStore or Windows Store
+   * @param {object} [options.logger=console] You can pass electron-log,
+   *   winston or another logger with the following interface:
+   *   { info(){}, warn(){} }. Set it to false if you would like to disable
+   *   a logging feature
+   * @param {string} [options.version] Current app version. In most cases,
+   *   you should not pass this options manually, it is read by electron
+   *   from version at package.json
    * @param {string} [options.url] URL to a file updates.json
    *
    * @fires SimpleUpdater#error
@@ -86,7 +95,10 @@ class SimpleUpdater extends events.EventEmitter {
 
     const squirrelAction = win32.getSquirrelInstallerAction();
     if (squirrelAction) {
-      const event = { preventDefault: false };
+      const event = {
+        squirrelAction,
+        preventDefault: false
+      };
       /**
        * @event SimpleUpdater#squirrel-win-installer
        * @param {string} action one of:
@@ -111,31 +123,10 @@ class SimpleUpdater extends events.EventEmitter {
   }
 
   /**
-   * Sets the url and initialize the auto updater.
-   * Instead of built-in auto-updater, it's a URL to updates.json
-   * @param {string} url
-   */
-  setFeedURL(url) {
-    if (this.options.empty) {
-      this.init(url);
-    } else {
-      this.options.url = url;
-    }
-  }
-
-  /**
-   * Returns String - The current updates.json URL.
-   * @return {string}
-   */
-  getFeedURL() {
-    if (!this.checkIsInitialized()) return '';
-    return this.options.url;
-  }
-
-  /**
-   * Asks the server whether there is an update. updates.json url must be set
-   * before this call
+   * Asks the server whether there is an update. url must be set before this call
    * @fires SimpleUpdater#error
+   * @fires SimpleUpdater#checking-for-update
+   * @fires SimpleUpdater#update-not-available
    * @return {SimpleUpdater}
    */
   checkForUpdates() {
@@ -150,6 +141,11 @@ class SimpleUpdater extends events.EventEmitter {
       this.emit('error', 'You must set url before calling checkForUpdates()');
       return this;
     }
+
+    /**
+     * @event SimpleUpdater#checking-for-update
+     */
+    this.emit('checking-for-update');
 
     //noinspection JSUnresolvedFunction
     getUpdatesMeta(opt.url, opt.build, opt.channel, opt.version)
@@ -172,7 +168,8 @@ class SimpleUpdater extends events.EventEmitter {
   }
 
   /**
-   * Start downloading update manually, if autoDownload is set to false
+   * Start downloading update manually.
+   * You can use this method if autoDownload option is set to false
    * @fires SimpleUpdater#update-downloading
    * @fires SimpleUpdater#update-downloaded
    * @fires SimpleUpdater#error
@@ -226,6 +223,21 @@ class SimpleUpdater extends events.EventEmitter {
     }
   }
 
+  /**
+   * Set one or a few options
+   * @param {string|object} name
+   * @param {*} value
+   * @return {SimpleUpdater}
+   */
+  setOptions(name, value = null) {
+    if (typeof name === 'object') {
+      Object.assign(this.options, name);
+      return this;
+    }
+    this.options[name] = value;
+    return this;
+  }
+
   get build() {
     if (!this.checkIsInitialized()) return;
     return this.options.build;
@@ -251,18 +263,26 @@ class SimpleUpdater extends events.EventEmitter {
   }
 
   /**
-   * Set one or a few options
-   * @param {string|object} name
-   * @param {*} value
-   * @return {SimpleUpdater}
+   * Sets the url and initialize the auto updater.
+   * Instead of built-in auto-updater, it's a URL to updates.json
+   * @deprecated
+   * @param {string} url
    */
-  setOptions(name, value = null) {
-    if (typeof name === 'object') {
-      Object.assign(this.options, name);
-      return this;
+  setFeedURL(url) {
+    if (this.options.empty) {
+      this.init(url);
+    } else {
+      this.options.url = url;
     }
-    this.options[name] = value;
-    return this;
+  }
+
+  /**
+   * Return the current updates.json URL
+   * @return {string}
+   */
+  getFeedURL() {
+    if (!this.checkIsInitialized()) return '';
+    return this.options.url;
   }
 
   /**
