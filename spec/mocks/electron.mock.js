@@ -8,6 +8,9 @@ mock('electron', {
     quit: sinon.spy(),
     getAppPath() {
       return __dirname;
+    },
+    getVersion() {
+      return '0.0.1';
     }
   }
 });
