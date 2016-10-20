@@ -15,15 +15,15 @@ class SimpleUpdater extends events.EventEmitter {
 
     // Just for better auto-complete
     this.options = {
-      autoDownload:           true,
-      build:                  '',
-      channel:                'prod',
-      checkUpdateOnStart:     true,
-      disabled:               false,
-      empty:                  true, // Mark that it's not initialized
-      logger:                 console,
-      version:                '',
-      url:                    ''
+      autoDownload:       true,
+      build:              '',
+      channel:            'prod',
+      checkUpdateOnStart: true,
+      disabled:           false,
+      empty:              true, // Mark that it's not initialized
+      logger:             console,
+      version:            '',
+      url:                ''
     };
 
     this.meta = {
@@ -102,7 +102,7 @@ class SimpleUpdater extends events.EventEmitter {
     const squirrelAction = win32.getSquirrelInstallerAction();
     if (squirrelAction) {
       const event = {
-                        squirrelAction,
+        squirrelAction,
         preventDefault: false
       };
       /**
