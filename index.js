@@ -28,9 +28,8 @@ class SimpleUpdater extends events.EventEmitter {
 
     this.meta = {
       empty:     true, // Mark that it's not initialized
-      platform:  '',
       version:   '',
-      updateUrl: ''
+      update:    ''
     };
 
     autoUpdater.on('update-downloaded', () => {
@@ -182,7 +181,7 @@ class SimpleUpdater extends events.EventEmitter {
    * @return {SimpleUpdater}
    */
   downloadUpdate() {
-    if (!this.meta.updateU) {
+    if (!this.meta.update) {
       const msg = 'There is no metadata for update. Run checkForUpdates first.';
       this.emit('error', msg);
       return this;
@@ -195,7 +194,7 @@ class SimpleUpdater extends events.EventEmitter {
      */
     this.emit('update-downloading', this.meta);
 
-    if (this.meta.platform === 'linux') {
+    if (process.platform === 'linux') {
       feedUrl = this.meta.update;
 
       linux.downloadUpdate(feedUrl)
