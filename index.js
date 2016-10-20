@@ -91,12 +91,18 @@ class SimpleUpdater extends events.EventEmitter {
       return this;
     }
 
+    // Return if we run not compiled application
+    if (app.getName() === 'Electron') {
+      this.options.disabled = true;
+      return this;
+    }
+
     this.options = normalizeOptions(options);
 
     const squirrelAction = win32.getSquirrelInstallerAction();
     if (squirrelAction) {
       const event = {
-        squirrelAction,
+                        squirrelAction,
         preventDefault: false
       };
       /**
