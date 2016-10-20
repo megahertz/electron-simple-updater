@@ -182,7 +182,7 @@ class SimpleUpdater extends events.EventEmitter {
    * @return {SimpleUpdater}
    */
   downloadUpdate() {
-    if (!this.meta.updateUrl) {
+    if (!this.meta.updateU) {
       const msg = 'There is no metadata for update. Run checkForUpdates first.';
       this.emit('error', msg);
       return this;
@@ -196,7 +196,7 @@ class SimpleUpdater extends events.EventEmitter {
     this.emit('update-downloading', this.meta);
 
     if (this.meta.platform === 'linux') {
-      feedUrl = this.meta.updateUrl;
+      feedUrl = this.meta.update;
 
       linux.downloadUpdate(feedUrl)
         .then((appImagePath) => {
@@ -301,8 +301,8 @@ class SimpleUpdater extends events.EventEmitter {
     this.meta = meta;
     const opt = this.options;
 
-    opt.logger.info(`Found version ${meta.version} at ${meta.updateUrl}`);
-    autoUpdater.setFeedURL(meta.updateUrl);
+    opt.logger.info(`Found version ${meta.version} at ${meta.update}`);
+    autoUpdater.setFeedURL(meta.update);
     /**
      * @event SimpleUpdater#update-available
      * @param {object} meta Update metadata

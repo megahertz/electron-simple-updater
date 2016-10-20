@@ -30,19 +30,19 @@ upload it to a file hosting:
 ```json
 {
   "linux-x64-prod": {
-    "updateUrl": "https://github.com/megahertz/electron-simple-updater/releases/download/example-linux-x64-prod-v0.0.2/simple-updater-example-0.0.2-x86_64.AppImage",
+    "update": "https://github.com/megahertz/electron-simple-updater/releases/download/example-linux-x64-prod-v0.0.2/simple-updater-example-0.0.2-x86_64.AppImage",
     "version": "0.0.2",
     "platform": "linux",
     "readme": "Second version"
   },
   "win32-x64-prod": {
-    "updateUrl": "https://github.com/megahertz/electron-simple-updater/releases/download/example-win32-x64-prod-v0.0.2",
+    "update": "https://github.com/megahertz/electron-simple-updater/releases/download/example-win32-x64-prod-v0.0.2",
     "version": "0.0.2",
     "platform": "win32",
     "readme": "Second version"
   },
   "darwin-x64-prod": {
-    "updateUrl": "https://github.com/megahertz/electron-simple-updater/releases/download/example-darwin-x64-prod-v0.0.2/release.json",
+    "update": "https://github.com/megahertz/electron-simple-updater/releases/download/example-darwin-x64-prod-v0.0.2/release.json",
     "version": "0.0.2",
     "platform": "darwin",
     "readme": "Second version"
