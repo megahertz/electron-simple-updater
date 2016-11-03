@@ -1,6 +1,4 @@
-
-<img align="left" src="https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/logo.svg">
-# electron-simple-updater
+# ![logo](https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/logo.svg)electron-simple-updater
 [![Build Status](https://travis-ci.org/megahertz/electron-simple-updater.svg?branch=master)](https://travis-ci.org/megahertz/electron-simple-updater)
 [![npm version](https://badge.fury.io/js/electron-simple-updater.svg)](https://badge.fury.io/js/electron-simple-updater)
 
