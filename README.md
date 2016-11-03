@@ -161,5 +161,6 @@ default.
 ## License
 
 Licensed under MIT.
+
 Logo was designed by [prolko](https://www.behance.net/prolko) base on the
 original [electron](https://github.com/electron/electron) logo.
