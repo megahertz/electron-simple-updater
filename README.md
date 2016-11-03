@@ -1,10 +1,12 @@
+
+<img align="left" src="https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/logo.svg">
 # electron-simple-updater
 [![Build Status](https://travis-ci.org/megahertz/electron-simple-updater.svg?branch=master)](https://travis-ci.org/megahertz/electron-simple-updater)
 [![npm version](https://badge.fury.io/js/electron-simple-updater.svg)](https://badge.fury.io/js/electron-simple-updater)
 
 ## Description
 
-This module allows to automatically update your application. Your only
+This module allows to automatically update your application. You only
 need to install this module and write two lines of code! To publish
 your updates you just need a simple file hosting, it does not require
 a dedicated server.
@@ -30,18 +32,21 @@ upload it to a file hosting:
 ```json
 {
   "linux-x64-prod": {
+    // Link to AppImage file
     "update": "https://github.com/megahertz/electron-simple-updater/releases/download/example-linux-x64-prod-v0.0.2/simple-updater-example-0.0.2-x86_64.AppImage",
     "version": "0.0.2",
     "platform": "linux",
     "readme": "Second version"
   },
   "win32-x64-prod": {
+    // Link to a folder with the RELEASES file
     "update": "https://github.com/megahertz/electron-simple-updater/releases/download/example-win32-x64-prod-v0.0.2",
     "version": "0.0.2",
     "platform": "win32",
     "readme": "Second version"
   },
   "darwin-x64-prod": {
+    // Link to json file which contains meta information for Squirrel.Mac
     "update": "https://github.com/megahertz/electron-simple-updater/releases/download/example-darwin-x64-prod-v0.0.2/release.json",
     "version": "0.0.2",
     "platform": "darwin",
