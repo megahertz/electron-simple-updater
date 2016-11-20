@@ -32,21 +32,22 @@ Install with [npm](https://npmjs.org/package/electron-simple-updater):
 ## Usage
 
 ### Publish a new release
-1. Build your release using electron-builder or another tool.
-
-2. Upload your release to a hosting and create update.json file. You can 
-do it [manually](blob/master/example/updates.json) or use
-[electron-simple-publisher](https://github.com/megahertz/electron-simple-publisher)
-to simplify this process.
-
-3. Insert a link to updates.json to your code.
+1. Insert a link to a place where you will store updates.json in your code. 
+You can find a sample of updates.json in the [the example](example)
 
     ```js
     // Just place this code at the entry point of your application:
     const updater = require('electron-simple-updater');
     updater.init('https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/updates.json');
     ```
-    You can set this link in package.json:updater.url instead.
+    You can set this link in package.json:updater.url instead of init() argument.
+
+2. Build your release using electron-builder or another tool.
+
+3. Upload your release with update.json to a hosting. You can 
+do it [manually](blob/master/example/updates.json) or use
+[electron-simple-publisher](https://github.com/megahertz/electron-simple-publisher)
+to simplify this process.
 
 4. That's it!
 
