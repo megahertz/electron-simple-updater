@@ -12,10 +12,9 @@
     "version": "0.0.2"
   },
   "darwin-x64-prod": {
-    "updateUrl": "https://github.com/megahertz/electron-simple-updater/releases/download/example-darwin-x64-prod-v0.0.2/release.json",
-    "installerUrl": "https://github.com/megahertz/electron-simple-updater/releases/download/example-darwin-x64-prod-v0.0.2/Simple.Updater.Example-0.0.2.dmg",
-    "version": "0.0.2",
-    "platform": "darwin",
-    "readme": "Second version"
+    "readme": "First Release",
+    "update": "https://github.com/megahertz/electron-simple-updater/releases/download/darwin-x64-prod-v0.0.1/release.json",
+    "install": "https://github.com/megahertz/electron-simple-updater/releases/download/darwin-x64-prod-v0.0.1/Simple.Updater.Example-0.0.1.dmg",
+    "version": "0.0.1"
   }
 }
