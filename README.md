@@ -32,50 +32,28 @@ Install with [npm](https://npmjs.org/package/electron-simple-updater):
 ## Usage
 
 ### Publish a new release
-1. Build your release using electron-builder or another tool and upload it
-to a file hosting.
-2. Create a file updates.js which contains link to your new release and
-upload it to a file hosting:
-```json
-{
-  "linux-x64-prod": {
-    "update": "https://github.com/megahertz/electron-simple-updater/releases/download/example-linux-x64-prod-v0.0.2/simple-updater-example-0.0.2-x86_64.AppImage",
-    "version": "0.0.2",
-    "platform": "linux",
-    "readme": "Second version"
-  },
-  "win32-x64-prod": {
-    "update": "https://github.com/megahertz/electron-simple-updater/releases/download/example-win32-x64-prod-v0.0.2",
-    "version": "0.0.2",
-    "platform": "win32",
-    "readme": "Second version"
-  },
-  "darwin-x64-prod": {
-    "update": "https://github.com/megahertz/electron-simple-updater/releases/download/example-darwin-x64-prod-v0.0.2/release.json",
-    "version": "0.0.2",
-    "platform": "darwin",
-    "readme": "Second version"
-  }
-}
-```
-This file contains links to:
- 1. An AppImage file for linux
- 2. A folder with the RELEASES file for Squirrel.Windows
- 3. A JSON file which contains meta information for Squirrel.Mac
+1. Build your release using electron-builder or another tool.
 
-### Insert a link to updates.json to your code
-```js
-// Just place this code at the entry point of your application:
-const updater = require('electron-simple-updater');
-updater.init('https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/updates.json');
-```
-You can set this link in package.json:updater.url instead.
+2. Upload your release to a hosting and create update.json file. You can 
+do it [manually](blob/master/example/updates.json) or use
+[electron-simple-publisher](https://github.com/megahertz/electron-simple-publisher)
+to simplify this process.
 
-### That's it!
-Now your application will check for updates on start and download it 
-automatically if an update is available. After app is restarted a new
-version will be loaded. But you can customize it to ask a user if he
-would like to install updates. See [the example](example) for details.
+3. Insert a link to updates.json to your code.
+
+    ```js
+    // Just place this code at the entry point of your application:
+    const updater = require('electron-simple-updater');
+    updater.init('https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/updates.json');
+    ```
+    You can set this link in package.json:updater.url instead.
+
+4. That's it!
+
+    Now your application will check for updates on start and download it 
+    automatically if an update is available. After app is restarted a new
+    version will be loaded. But you can customize it to ask a user if he
+    would like to install updates. See [the example](example) for details.
     
 ## API
 
@@ -161,6 +139,11 @@ default.
  customize this action
  * **event.squirrelAction** - squirrel-install, squirrel-updated,
  squirrel-uninstall, squirrel-obsolete
+    
+## Future plans
+    
+I'm thinking about merging into electron-builder, but unfortunately
+I have no enough time for it. Maybe I'll do it later.
     
 ## Related
  - [electron-builder](https://github.com/electron-userland/electron-builder) -
