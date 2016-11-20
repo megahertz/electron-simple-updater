@@ -32,7 +32,7 @@ Install with [npm](https://npmjs.org/package/electron-simple-updater):
 ## Usage
 
 ### Publish a new release
-1. Insert a link to a place where you will store updates.json in your code. 
+1. Insert a link to a hosting where you will store updates.json to main.js. 
 You can find a sample of updates.json in the [the example](example)
 
     ```js
