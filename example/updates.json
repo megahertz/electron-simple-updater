@@ -1,9 +1,9 @@
 {
   "linux-x64-prod": {
-    "readme": "Second release",
-    "update": "https://github.com/megahertz/electron-simple-updater/releases/download/linux-x64-prod-v0.0.2/simple-updater-example-0.0.2-x86_64.AppImage",
-    "install": "https://github.com/megahertz/electron-simple-updater/releases/download/linux-x64-prod-v0.0.2/simple-updater-example-0.0.2-x86_64.AppImage",
-    "version": "0.0.2"
+    "readme": "First release",
+    "update": "https://github.com/megahertz/electron-simple-updater/releases/download/linux-x64-prod-v0.0.1/simple-updater-example-0.0.1-x86_64.AppImage",
+    "install": "https://github.com/megahertz/electron-simple-updater/releases/download/linux-x64-prod-v0.0.1/simple-updater-example-0.0.1-x86_64.AppImage",
+    "version": "0.0.1"
   },
   "win32-x64-prod": {
     "readme": "First release",
