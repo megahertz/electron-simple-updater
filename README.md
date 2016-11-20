@@ -15,6 +15,14 @@ Support OS:
  - Windows ([Squirrel.Windows](https://github.com/Squirrel/Squirrel.Windows))
  - Linux (for [AppImage](http://appimage.org/) format)
 
+## Differences between electron-simple-updater and built-in autoUpdater
+
+* Actually, autoUpdater is used inside.
+* Linux support.
+* It handles Squirrel.Windows install/update command line arguments.
+* It doesn't require a dedicated release server.
+* You need only 2 lines of code to make it work.
+
 ## Installation
 
 Install with [npm](https://npmjs.org/package/electron-simple-updater):
