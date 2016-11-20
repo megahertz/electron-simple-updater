@@ -8,7 +8,7 @@ for building installer and update package and
 [electron-simple-publisher](https://github.com/megahertz/electron-simple-publisher)
 to simplify release publishing
 
-It can be build and publish by the single command:
+It can be built and publish by the single command:
 
     npm run release -- -- --transport-token<Your Github API Token>
     
