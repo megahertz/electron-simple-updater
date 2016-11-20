@@ -157,6 +157,8 @@ default.
 ## Related
  - [electron-builder](https://github.com/electron-userland/electron-builder) -
  A complete solution to package and build an Electron app
+ - [electron-simple-publisher](https://github.com/megahertz/electron-simple-publisher) -
+ Simple way to publish releases for electron-simple-updater
     
     
 ## License

@@ -4,8 +4,10 @@
   "main": "app/main.js",
   "scripts": {
     "postinstall": "install-app-deps",
-    "start": "node_modules/.bin/electron ./app",
-    "dist": "build"
+    "start": "electron ./app",
+    "dist": "build",
+    "publish": "publish",
+    "release": "npm run dist && npm run publish"
   },
   "author": "Alexey Prokhorov",
   "license": "MIT",
@@ -15,13 +17,19 @@
     "mac": {
       "category": "public.app-category.developer-tools"
     },
-    "iconUrl": "http://electron.atom.io/images/favicon.ico"
+    "win": {
+      "target": "squirrel"
+    },
+    "squirrelWindows": {
+      "iconUrl": "https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/build/icon.ico"
+    }
   },
   "engines": {
     "node": ">=6.0"
   },
   "devDependencies": {
-    "electron": "^1.4.3",
-    "electron-builder": "7.8.0"
+    "electron": "^1.4.7",
+    "electron-builder": "^8.6.0",
+    "electron-simple-publisher": "*"
   }
 }
