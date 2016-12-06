@@ -10,7 +10,7 @@ need to install this module and write two lines of code! To publish
 your updates you just need a simple file hosting, it does not require
 a dedicated server.
 
-Support OS: 
+Supported OS: 
  - Mac, ([Squirrel.Mac](https://github.com/Squirrel/Squirrel.Mac))
  - Windows ([Squirrel.Windows](https://github.com/Squirrel/Squirrel.Windows))
  - Linux (for [AppImage](http://appimage.org/) format)
