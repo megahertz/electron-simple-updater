@@ -43,6 +43,8 @@ You can find a sample of updates.json in the [the example](example)
     You can set this link in package.json:updater.url instead of init() argument.
 
 2. Build your release using electron-builder or another tool.
+Note: Your application must be signed for automatic updates on macOS.
+This is a requirement of Squirrel.Mac
 
 3. Upload your release with update.json to a hosting. You can 
 do it [manually](blob/master/example/updates.json) or use
