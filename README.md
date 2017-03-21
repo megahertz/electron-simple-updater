@@ -143,14 +143,10 @@ default.
  * **event.squirrelAction** - squirrel-install, squirrel-updated,
  squirrel-uninstall, squirrel-obsolete
     
-## Future plans
-    
-I'm thinking about merging into electron-builder, but unfortunately
-I have no enough time for it. Maybe I'll do it later.
-    
 ## Related
  - [electron-builder](https://github.com/electron-userland/electron-builder) -
- A complete solution to package and build an Electron app
+ A complete solution to package and build an Electron app. Also it contains
+ an alternative implementation of update package.
  - [electron-simple-publisher](https://github.com/megahertz/electron-simple-publisher) -
  Simple way to publish releases for electron-simple-updater
     
