@@ -44,12 +44,12 @@ You can find a sample of updates.json in the [the example](example)
 
 2. Build your release using electron-builder or another tool.
 Note: Your application must be signed for automatic updates on macOS.
-This is a requirement of Squirrel.Mac
+This is a requirement of Squirrel.Mac.
 
 3. Upload your release with update.json to a hosting. You can 
-do it [manually](blob/master/example/updates.json) or use
+do it [manually](example/updates.json) or use
 [electron-simple-publisher](https://github.com/megahertz/electron-simple-publisher)
-to simplify this process.
+to simplify this process. Note: Squirrel.Mac requires a properly prepared `release.json` file. A release in the property `url` must be zipped .app file.
 
 4. That's it!
 
