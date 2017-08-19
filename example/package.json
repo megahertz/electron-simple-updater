@@ -16,6 +16,9 @@
   "private": true,
   "build": {
     "appId": "megahertz.electron-simple-updater-example",
+    "linux": {
+      "category": "Development"
+    },
     "mac": {
       "category": "public.app-category.developer-tools"
     },
