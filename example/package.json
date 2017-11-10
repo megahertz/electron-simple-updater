@@ -1,7 +1,7 @@
 {
   "name": "simple-updater-example",
   "productName": "Simple Updater Example",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Example of using electron-simple-updater",
   "main": "app/main.js",
   "scripts": {
@@ -19,6 +19,11 @@
     "appImage": {
       "systemIntegration": "doNotAsk"
     },
+    "files": [
+      "!publisher.json",
+      "!README.md",
+      "!updates.json"
+    ],
     "linux": {
       "category": "Development"
     },
