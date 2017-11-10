@@ -1,7 +1,7 @@
 {
   "name": "simple-updater-example",
   "productName": "Simple Updater Example",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Example of using electron-simple-updater",
   "main": "app/main.js",
   "scripts": {
@@ -16,6 +16,9 @@
   "private": true,
   "build": {
     "appId": "megahertz.electron-simple-updater-example",
+    "appImage": {
+      "systemIntegration": "doNotAsk"
+    },
     "linux": {
       "category": "Development"
     },
