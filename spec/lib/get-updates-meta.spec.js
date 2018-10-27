@@ -1,11 +1,9 @@
 'use strict';
 
-const { expect } = require('chai');
-const getUpdatesMeta = require('rewire')('../../lib/get-updates-meta');
+const { expect }     = require('chai');
+const getUpdatesMeta = require('../../lib/get-updates-meta');
 
-
-const extractUpdateMeta = getUpdatesMeta.__get__('extractUpdateMeta');
-
+const extractUpdateMeta = getUpdatesMeta.extractUpdateMeta;
 
 describe('get-updates-meta lib', () => {
   it('should check if there is a new version', () => {
@@ -14,7 +12,7 @@ describe('get-updates-meta lib', () => {
       'win32-ia32-beta': { version: '1.0.2' },
       'nsis-prod': { version: '0.3.2' },
       'linux-x64-prod': { version: '1.0.2' },
-      'darwin-x64-prod': { version: '2.0.0' }
+      'darwin-x64-prod': { version: '2.0.0' },
     };
 
     expect(extractUpdateMeta(meta, 'win32-x64', 'prod', '1.0.1'))

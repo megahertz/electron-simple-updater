@@ -1,15 +1,16 @@
 'use strict';
+
 /* eslint-env browser */
+/* eslint-disable no-restricted-globals, no-alert */
 
 const { remote } = require('electron');
-const updater = remote.require('electron-simple-updater');
 
+const updater = remote.require('electron-simple-updater');
 
 setText('version', updater.version);
 setText('build', updater.buildId);
 attachUiHandlers();
 attachUpdaterHandlers();
-
 
 function attachUiHandlers() {
   const btnUpdate        = document.getElementById('btn-update');
@@ -25,7 +26,7 @@ function attachUiHandlers() {
     updater.downloadUpdate();
   });
 
-  chkAutomatically.addEventListener('change', function() {
+  chkAutomatically.addEventListener('change', function onChange() {
     updater.setOptions('autoDownload', this.checked);
   });
 }
@@ -35,8 +36,8 @@ function attachUpdaterHandlers() {
   updater.on('update-downloading', onUpdateDownloading);
   updater.on('update-downloaded', onUpdateDownloaded);
   updater.setOptions('logger', {
-    info(text) { log('info', text); },
-    warn(text) { log('warn', text); }
+    info(text) { log('info', text) },
+    warn(text) { log('warn', text) },
   });
 
   function onUpdateAvailable(meta) {
@@ -50,7 +51,7 @@ function attachUpdaterHandlers() {
   }
 
   function onUpdateDownloaded() {
-    if (window.confirm('The app has been updated. Do you like to restart it now?')) {
+    if (confirm('The app has been updated. Do you like to restart it now?')) {
       updater.quitAndInstall();
     }
   }
@@ -65,6 +66,6 @@ function attachUpdaterHandlers() {
 
 function setText(id, text) {
   document.getElementById(id).appendChild(
-    document.createTextNode(text)
+    document.createTextNode(text),
   );
 }

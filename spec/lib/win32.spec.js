@@ -3,7 +3,6 @@
 const { expect } = require('chai');
 const win32      = require('../../lib/win32');
 
-
 describe('win32 lib', () => {
   beforeEach(() => {
     this.originalArgv1    = process.argv[1];
@@ -13,7 +12,9 @@ describe('win32 lib', () => {
 
   afterEach(() => {
     process.argv[1] = this.originalArgv1;
-    Object.defineProperty(process, 'platform', { value: this.originalPlatform });
+    Object.defineProperty(process, 'platform', {
+      value: this.originalPlatform,
+    });
   });
 
   it('should return Squirrel.Windows installer action', () => {

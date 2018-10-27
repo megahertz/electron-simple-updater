@@ -1,8 +1,8 @@
 'use strict';
 
+const mock  = require('mock-require');
 const sinon = require('sinon');
 
-const mock = require('mock-require');
 mock('electron', {
   app: {
     quit: sinon.spy(),
@@ -11,6 +11,6 @@ mock('electron', {
     },
     getVersion() {
       return '0.0.1';
-    }
-  }
+    },
+  },
 });

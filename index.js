@@ -1,13 +1,12 @@
 'use strict';
 
+const { exec }             = require('child_process');
 const { app, autoUpdater } = require('electron');
 const events               = require('events');
-const exec                 = require('child_process').exec;
-
-const win32            = require('./lib/win32');
-const linux            = require('./lib/linux');
-const getUpdatesMeta   = require('./lib/get-updates-meta');
-const normalizeOptions = require('./lib/normalize-options');
+const getUpdatesMeta       = require('./lib/get-updates-meta');
+const linux                = require('./lib/linux');
+const normalizeOptions     = require('./lib/normalize-options');
+const win32                = require('./lib/win32');
 
 class SimpleUpdater extends events.EventEmitter {
   constructor() {
@@ -23,13 +22,13 @@ class SimpleUpdater extends events.EventEmitter {
       empty:              true, // Mark that it's not initialized
       logger:             console,
       version:            '',
-      url:                ''
+      url:                '',
     };
 
     this.meta = {
       empty:     true, // Mark that it's not initialized
       version:   '',
-      update:    ''
+      update:    '',
     };
 
     autoUpdater.on('update-downloaded', () => {
@@ -57,7 +56,8 @@ class SimpleUpdater extends events.EventEmitter {
    * @param {object|string} [options]
    * @param {bool}   [options.autoDownload=true] Automatically download an
    *   update when it is found in updates.json
-   * @param {string} [options.build] Build type, like 'linux-x64' or 'win32-ia32'
+   * @param {string} [options.build] Build type, like 'linux-x64'
+   *   or 'win32-ia32'
    * @param {string} [options.channel=prod] An application which is built for
    *   channel like 'beta' will receive updates only from this channel
    * @param {bool}   [options.checkUpdateOnStart=true] Check for updates
@@ -85,7 +85,7 @@ class SimpleUpdater extends events.EventEmitter {
        */
       this.emit(
         'error',
-        'electron-simple updater has been initialized before'
+        'electron-simple updater has been initialized before',
       );
       return this;
     }
@@ -100,10 +100,8 @@ class SimpleUpdater extends events.EventEmitter {
 
     const squirrelAction = win32.getSquirrelInstallerAction();
     if (squirrelAction) {
-      const event = {
-        squirrelAction,
-        preventDefault: false
-      };
+      const event = { squirrelAction, preventDefault: false };
+
       /**
        * @event SimpleUpdater#squirrel-win-installer
        * @param {string} action one of:
@@ -128,7 +126,8 @@ class SimpleUpdater extends events.EventEmitter {
   }
 
   /**
-   * Asks the server whether there is an update. url must be set before this call
+   * Asks the server whether there is an update. url must be set before
+   * this call
    * @fires SimpleUpdater#error
    * @fires SimpleUpdater#checking-for-update
    * @fires SimpleUpdater#update-not-available
@@ -138,7 +137,7 @@ class SimpleUpdater extends events.EventEmitter {
     const opt = this.options;
 
     if (opt.disabled) {
-      opt.logger.warn(`Update is disabled`);
+      opt.logger.warn('Update is disabled');
       return this;
     }
 
@@ -159,7 +158,7 @@ class SimpleUpdater extends events.EventEmitter {
           this.onFoundUpdate(updateMeta);
         } else {
           opt.logger.info(
-            `Update for ${this.buildId} is not available`
+            `Update for ${this.buildId} is not available`,
           );
           /**
            * @event SimpleUpdater#update-not-available
@@ -188,6 +187,7 @@ class SimpleUpdater extends events.EventEmitter {
     }
 
     let feedUrl = autoUpdater.getFeedURL();
+
     /**
      * @event SimpleUpdater#update-downloading
      * @param {object} meta Update metadata
@@ -201,7 +201,9 @@ class SimpleUpdater extends events.EventEmitter {
         .then((appImagePath) => {
           this.appImagePath = appImagePath;
           const version = this.meta.version;
-          this.options.logger.info(`New version ${version} has been downloaded`);
+          this.options.logger.info(
+            `New version ${version} has been downloaded`,
+          );
           this.emit('update-downloaded', this.meta);
         })
         .catch(e => this.emit('error', e));
@@ -239,6 +241,7 @@ class SimpleUpdater extends events.EventEmitter {
       Object.assign(this.options, name);
       return this;
     }
+
     this.options[name] = value;
     return this;
   }
@@ -321,9 +324,9 @@ class SimpleUpdater extends events.EventEmitter {
     if (this.options.empty) {
       this.emit('error', 'electron-simple-updater is not initialized');
       return false;
-    } else {
-      return true;
     }
+
+    return true;
   }
 }
 

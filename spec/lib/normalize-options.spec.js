@@ -1,25 +1,25 @@
 'use strict';
 
-const { expect } = require('chai');
-const normalizeOptions = require('rewire')('../../lib/normalize-options');
+const { expect }       = require('chai');
+const normalizeOptions = require('../../lib/normalize-options');
 
-
-const makeBuildString        = normalizeOptions.__get__('makeBuildString');
-const loadOptionsFromPackage = normalizeOptions.__get__('loadOptionsFromPackage');
-
+const makeBuildString        = normalizeOptions.makeBuildString;
+const loadOptionsFromPackage = normalizeOptions.loadOptionsFromPackage;
 
 describe('normalize-options lib', () => {
   beforeEach(() => {
     this.originalPlatform        = process.platform;
     this.originalArch            = process.arch;
 
-    Object.defineProperty(process, 'platform',     { value: 'win32' });
-    Object.defineProperty(process, 'arch',         { value: 'x64' });
+    Object.defineProperty(process, 'platform', { value: 'win32' });
+    Object.defineProperty(process, 'arch',     { value: 'x64' });
   });
 
   afterEach(() => {
-    Object.defineProperty(process, 'platform',     { value: this.originalPlatform });
-    Object.defineProperty(process, 'arch',         { value: this.originalArch });
+    Object.defineProperty(process, 'platform', {
+      value: this.originalPlatform,
+    });
+    Object.defineProperty(process, 'arch', { value: this.originalArch });
   });
 
   it('should make a build string', () => {
@@ -33,7 +33,7 @@ describe('normalize-options lib', () => {
   it('should read options from a package.json', () => {
     expect(loadOptionsFromPackage()).to.deep.equal({
       url: 'https://example.com/updates.json',
-      version: '0.0.1'
+      version: '0.0.1',
     });
   });
 
@@ -43,9 +43,7 @@ describe('normalize-options lib', () => {
     expect(opt1).to.have.property('autoDownload', true);
     expect(opt1).to.have.property('url', 'https://example.com/updates.json');
 
-    const opt2 = normalizeOptions({
-      autoDownload: false
-    });
+    const opt2 = normalizeOptions({ autoDownload: false });
     expect(opt2).to.have.property('autoDownload', false);
   });
 });
