@@ -1,6 +1,5 @@
 'use strict';
 
-const { exec }             = require('child_process');
 const { app, autoUpdater } = require('electron');
 const events               = require('events');
 const getUpdatesMeta       = require('./lib/get-updates-meta');
@@ -223,11 +222,10 @@ class SimpleUpdater extends events.EventEmitter {
    */
   quitAndInstall() {
     if (this.appImagePath) {
-      exec(this.appImagePath);
-      app.quit();
-    } else {
-      return autoUpdater.quitAndInstall();
+      return linux.quitAndInstall();
     }
+
+    return autoUpdater.quitAndInstall();
   }
 
   /**
