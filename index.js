@@ -84,7 +84,7 @@ class SimpleUpdater extends events.EventEmitter {
        */
       this.emit(
         'error',
-        'electron-simple updater has been initialized before',
+        'electron-simple updater has been initialized before'
       );
       return this;
     }
@@ -157,7 +157,7 @@ class SimpleUpdater extends events.EventEmitter {
           this.onFoundUpdate(updateMeta);
         } else {
           opt.logger.info(
-            `Update for ${this.buildId} is not available`,
+            `Update for ${this.buildId} is not available`
           );
           /**
            * @event SimpleUpdater#update-not-available
@@ -201,7 +201,7 @@ class SimpleUpdater extends events.EventEmitter {
           this.appImagePath = appImagePath;
           const version = this.meta.version;
           this.options.logger.info(
-            `New version ${version} has been downloaded`,
+            `New version ${version} has been downloaded`
           );
           this.emit('update-downloaded', this.meta);
         })

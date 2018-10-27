@@ -66,6 +66,6 @@ function attachUpdaterHandlers() {
 
 function setText(id, text) {
   document.getElementById(id).appendChild(
-    document.createTextNode(text),
+    document.createTextNode(text)
   );
 }
