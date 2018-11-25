@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=appimage
+Comment=electron-simple-updater test project
+Exec=AppRun
+X-AppImage-Version=0.0.2
+X-AppImage-BuildId=1DPB0c43blt5k3jZmv15VXKdKRm

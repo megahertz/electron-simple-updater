@@ -1,0 +1,6 @@
+{
+  "transport": {
+    "module": "local",
+    "remoteUrl": "http://localhost:3003/updates"
+  }
+}

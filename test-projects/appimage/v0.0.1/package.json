@@ -1,0 +1,24 @@
+{
+  "name": "appimage",
+  "version": "0.0.1",
+  "private": true,
+  "main": "main.js",
+  "author": "Alexey Prokhorov",
+  "description": "electron-simple-updater test project",
+  "build": {
+    "appId": "com.github.megahertz.esu.appimage",
+    "linux": {
+      "category": "Development"
+    }
+  },
+  "updater": {
+    "url": "http://127.0.0.1:3003/updates/updates.json"
+  },
+  "scripts": {
+    "build": "npm run dist",
+    "dist": "../node_modules/.bin/electron-builder --linux AppImage"
+  },
+  "dependencies": {
+    "electron-simple-updater": "file:../../.."
+  }
+}

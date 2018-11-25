@@ -196,7 +196,7 @@ class SimpleUpdater extends events.EventEmitter {
     if (process.platform === 'linux') {
       feedUrl = this.meta.update;
 
-      linux.downloadUpdate(feedUrl)
+      linux.downloadUpdate(feedUrl, this.options.logger)
         .then((appImagePath) => {
           this.appImagePath = appImagePath;
           const version = this.meta.version;

@@ -1,0 +1,9 @@
+{
+  "name": "appimage",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "electron-builder": "^20.33.2",
+    "electron-simple-publisher": "^0.4.13"
+  }
+}
