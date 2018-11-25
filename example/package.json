@@ -6,7 +6,7 @@
   "main": "app/main.js",
   "scripts": {
     "postinstall": "install-app-deps",
-    "start": "electron ./app",
+    "start": "electron .",
     "dist": "build",
     "publish": "publish",
     "release": "npm run dist && npm run publish"
