@@ -17,6 +17,7 @@ app.get('/finish', (req, res) => {
   process.exit();
 });
 
+// eslint-disable-next-line func-names
 app.listen(3003, function () {
   console.log(`Listening on port ${this.address().port}.`);
   startAppImageV1();

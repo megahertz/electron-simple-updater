@@ -7,7 +7,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "body-parser": "*",
     "express": "*"
   }
 }

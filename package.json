@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run lint && npm run mocha",
     "mocha": "mocha 'spec/mocks/*.mock.js' 'spec/**/*.js'",
-    "lint": "eslint '**/*.js'"
+    "lint": "eslint '**/*.js' --ignore-pattern 'node_modules'"
   },
   "repository": "megahertz/electron-simple-updater",
   "files": [
@@ -31,7 +31,7 @@
   "bugs": "https://github.com/megahertz/electron-simple-updater/issues",
   "homepage": "https://github.com/megahertz/electron-simple-updater#readme",
   "engines": {
-    "node": ">=6.0"
+    "node": ">=8.0"
   },
   "devDependencies": {
     "chai": "*",
