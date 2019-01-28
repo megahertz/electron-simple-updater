@@ -32,6 +32,7 @@ describe('normalize-options lib', () => {
 
   it('should read options from a package.json', () => {
     expect(loadOptionsFromPackage()).to.deep.equal({
+      appName: 'esu-test',
       url: 'https://example.com/updates.json',
       version: '0.0.1',
     });
