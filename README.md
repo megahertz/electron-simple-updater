@@ -71,7 +71,7 @@ build               | {platform}-{arch}       | Build type, like 'linux-x64' or 
 channel             | 'prod'                  | An application which is built for channel like 'beta' will receive updates only from this channel
 checkUpdateOnStart  | true                    | Check for updates immediately when init() is called
 disabled            | false                   | Disable update feature. This option is set to true automatically for applications built for Mac App Store or Windows Store
-logger              | console                 | You can pass [electron-log](https://github.com/megahertz/electron-log), [winston](https://github.com/winstonjs/winston) or another logger with the following interface: { info(), warn() }. Set it to false if you would like to disable a logging feature 
+logger              | console                 | You can pass [electron-log](https://github.com/megahertz/electron-log), [winston](https://github.com/winstonjs/winston) or another logger with the following interface: { debug(), info(), warn() }. Set it to false if you would like to disable a logging feature 
 version             | app.getVersion()        | Current app version. In most cases, you should not pass this options manually, it is read by electron from version at package.json
 url*                | undefined               | The only required parameter. This is a URL to [updates.json](https://github.com/megahertz/electron-simple-updater/blob/master/example/updates.json) file
     
