@@ -156,7 +156,7 @@ class SimpleUpdater extends events.EventEmitter {
         if (updateMeta) {
           this.onFoundUpdate(updateMeta);
         } else {
-          opt.logger.debug(
+          opt.logger.debug && opt.logger.debug(
             `Update for ${this.buildId} is not available`
           );
           /**
@@ -301,7 +301,10 @@ class SimpleUpdater extends events.EventEmitter {
     this.meta = meta;
     const opt = this.options;
 
-    opt.logger.debug(`Found version ${meta.version} at ${meta.update}`);
+    if (opt.logger.debug) {
+      opt.logger.debug(`Found version ${meta.version} at ${meta.update}`);
+    }
+
     autoUpdater.setFeedURL(meta.update);
     /**
      * @event SimpleUpdater#update-available
