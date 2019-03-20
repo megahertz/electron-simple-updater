@@ -66,8 +66,7 @@ section.
 
 Name                | Default                 | Description
 --------------------|-------------------------|------------
-autoDownload        | true                    | Automatically download an update when it is found in updates.json
-build               | {platform}-{arch}       | Build type, like 'linux-x64' or 'win32-ia32'
+autoDownload        | true                    | Automatically download an update when it's found in updates.json
 channel             | 'prod'                  | An application which is built for channel like 'beta' will receive updates only from this channel
 checkUpdateOnStart  | true                    | Check for updates immediately when init() is called
 disabled            | false                   | Disable update feature. This option is set to true automatically for applications built for Mac App Store or Windows Store

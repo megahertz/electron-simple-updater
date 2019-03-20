@@ -1,16 +1,19 @@
 {
   "name": "electron-simple-updater",
-  "version": "1.4.4",
+  "version": "1.5.0",
   "description": "Simple way to enable update for the electron application",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && npm run mocha",
+    "test": "npm run lint && npm run tslint && npm run mocha",
     "mocha": "mocha 'spec/mocks/*.mock.js' 'spec/**/*.js'",
-    "lint": "eslint '**/*.js' --ignore-pattern 'node_modules'"
+    "lint": "eslint '**/*.js' --ignore-pattern 'node_modules'",
+    "tslint": "tslint -p . -t verbose index.d.ts",
+    "typings": "index.d.ts"
   },
   "repository": "megahertz/electron-simple-updater",
   "files": [
     "index.js",
+    "index.d.ts",
     "lib/*"
   ],
   "keywords": [
@@ -42,7 +45,9 @@
     "mocha": "*",
     "mock-require": "*",
     "sinon": "*",
-    "sinon-chai": "*"
+    "sinon-chai": "*",
+    "tslint": "^5.14.0",
+    "typescript": "^3.3.4000"
   },
   "dependencies": {
     "httpreq": "0.4.24",
