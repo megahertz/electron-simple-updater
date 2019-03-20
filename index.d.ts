@@ -6,7 +6,7 @@ interface ILogger {
   warn(...args: any): void;
 }
 
-interface IImportOptions {
+interface IOptions {
   /**
    * Automatically download an update when it's' found in updates.json
    */
@@ -76,7 +76,7 @@ declare class SimpleUpdater extends NodeJS.EventEmitter {
    * By default it finish the process if run by Squirrel.Windows installer
    * @fires SimpleUpdater#error:Event
    */
-  init(options?: IImportOptions): this;
+  init(options?: IOptions): this;
 
   /**
    * Asks the server whether there is an update. url must be set before
@@ -105,8 +105,8 @@ declare class SimpleUpdater extends NodeJS.EventEmitter {
   /**
    * Set one or a few options
    */
-  setOptions(options: IImportOptions): this;
-  setOptions(name: keyof IImportOptions, value: any): this;
+  setOptions(options: IOptions): this;
+  setOptions(name: keyof IOptions, value: any): this;
 
   /**
    * Return the current updates.json URL
