@@ -7,9 +7,9 @@
     "test": "npm run lint && npm run tslint && npm run mocha",
     "mocha": "mocha 'spec/mocks/*.mock.js' 'spec/**/*.js'",
     "lint": "eslint '**/*.js' --ignore-pattern 'node_modules'",
-    "tslint": "tslint -p . -t verbose index.d.ts",
-    "typings": "index.d.ts"
+    "tslint": "tslint -p . -t verbose index.d.ts"
   },
+  "typings": "index.d.ts",
   "repository": "megahertz/electron-simple-updater",
   "files": [
     "index.js",
