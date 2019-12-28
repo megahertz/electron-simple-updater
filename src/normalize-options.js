@@ -77,17 +77,13 @@ function validateOptions(options) {
 }
 
 function makeBuildString() {
-  let build;
+  let build = process.platform;
 
   if (process.mas) {
     build = 'mas';
   } else if (process.windowsStore) {
     build = 'winstore';
-  } else {
-    build = process.platform;
   }
 
-  build += '-' + process.arch;
-
-  return build;
+  return `${build}-${process.arch}`;
 }
