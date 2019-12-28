@@ -16,8 +16,10 @@ const SQUIRREL_ACTIONS = [
   SQUIRREL_INSTALL, SQUIRREL_UPDATED, SQUIRREL_UNINSTALL, SQUIRREL_OBSOLETE,
 ];
 
-module.exports.getSquirrelInstallerAction = getSquirrelInstallerAction;
-module.exports.processSquirrelInstaller   = processSquirrelInstaller;
+module.exports = {
+  getSquirrelInstallerAction,
+  processSquirrelInstaller,
+};
 
 function getSquirrelInstallerAction() {
   if (process.platform !== 'win32') {

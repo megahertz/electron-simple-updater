@@ -4,7 +4,6 @@ const semver  = require('semver');
 const request = require('httpreq');
 
 /**
- *
  * @type {Promise<Object|Boolean>}
  */
 module.exports = getUpdatesMeta;
@@ -43,14 +42,15 @@ function getJson(url) {
     request.get(url, (err, response) => {
       if (err) {
         reject(err);
-      } else {
-        try {
-          resolve(JSON.parse(response.body));
-        } catch (e) {
-          e.message = `Error while parsing '${url}'. `
-            + `${e.message}. Data:\n ${response.body}`;
-          reject(e);
-        }
+        return;
+      }
+
+      try {
+        resolve(JSON.parse(response.body));
+      } catch (e) {
+        reject(new Error(
+          `Error while parsing '${url}'. ${e}. Data:\\n ${response.body}`
+        ));
       }
     });
   });

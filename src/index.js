@@ -53,15 +53,15 @@ class SimpleUpdater extends events.EventEmitter {
    * By default it finish the process if run by Squirrel.Windows installer
    *
    * @param {object|string} [options]
-   * @param {bool}   [options.autoDownload=true] Automatically download an
+   * @param {boolean}   [options.autoDownload=true] Automatically download an
    *   update when it is found in updates.json
    * @param {string} [options.build] Build type, like 'linux-x64'
    *   or 'win32-ia32'
    * @param {string} [options.channel=prod] An application which is built for
    *   channel like 'beta' will receive updates only from this channel
-   * @param {bool}   [options.checkUpdateOnStart=true] Check for updates
+   * @param {boolean}   [options.checkUpdateOnStart=true] Check for updates
    *   immediately when init() is called
-   * @param {bool}   [options.disabled=false] Disable update feature.
+   * @param {boolean}   [options.disabled=false] Disable update feature.
    *   This option is set to true automatically for applications built for
    *   Mac AppStore or Windows Store
    * @param {object} [options.logger=console] You can pass electron-log,
@@ -86,6 +86,7 @@ class SimpleUpdater extends events.EventEmitter {
         'error',
         'electron-simple updater has been initialized before'
       );
+
       return this;
     }
 
@@ -110,10 +111,12 @@ class SimpleUpdater extends events.EventEmitter {
        *   squirrel-obsolete
        */
       this.emit('squirrel-win-installer', event);
+
       if (!event.preventDefault) {
         win32.processSquirrelInstaller(squirrelAction);
         process.exit();
       }
+
       return this;
     }
 
@@ -155,15 +158,18 @@ class SimpleUpdater extends events.EventEmitter {
       .then((updateMeta) => {
         if (updateMeta) {
           this.onFoundUpdate(updateMeta);
-        } else {
-          opt.logger.debug && opt.logger.debug(
-            `Update for ${this.buildId} is not available`
-          );
-          /**
-           * @event SimpleUpdater#update-not-available
-           */
-          this.emit('update-not-available');
+          return;
         }
+
+        opt.logger.debug && opt.logger.debug(
+          `Update for ${this.buildId} is not available`
+        );
+
+        /**
+         * @event SimpleUpdater#update-not-available
+         */
+        this.emit('update-not-available');
+
       })
       .catch(e => this.emit('error', e));
 
@@ -306,11 +312,13 @@ class SimpleUpdater extends events.EventEmitter {
     }
 
     autoUpdater.setFeedURL(meta.update);
+
     /**
      * @event SimpleUpdater#update-available
      * @param {object} meta Update metadata
      */
     this.emit('update-available', meta);
+
     if (opt.autoDownload) {
       this.downloadUpdate();
     }

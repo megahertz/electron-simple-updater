@@ -6,8 +6,10 @@ const fs = require('fs');
 const request = require('httpreq');
 const path = require('path');
 
-module.exports.downloadUpdate = downloadUpdate;
-module.exports.quitAndInstall = quitAndInstall;
+module.exports = {
+  downloadUpdate,
+  quitAndInstall,
+};
 
 async function checkUpdateSavePath(appImagePath) {
   const saveDir = path.dirname(appImagePath);
