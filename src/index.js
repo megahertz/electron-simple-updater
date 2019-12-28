@@ -169,7 +169,6 @@ class SimpleUpdater extends events.EventEmitter {
          * @event SimpleUpdater#update-not-available
          */
         this.emit('update-not-available');
-
       })
       .catch(e => this.emit('error', e));
 
