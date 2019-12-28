@@ -1,8 +1,8 @@
 'use strict';
 
 const { app } = require('electron');
-const path    = require('path');
-const fs      = require('fs');
+const path = require('path');
+const fs = require('fs');
 
 module.exports = normalizeOptions;
 module.exports.makeBuildString = makeBuildString;
@@ -11,12 +11,12 @@ module.exports.loadOptionsFromPackage = loadOptionsFromPackage;
 
 function normalizeOptions(options) {
   const def = {
-    logger:             console,
+    logger: console,
     checkUpdateOnStart: true,
-    autoDownload:       true,
-    build:              makeBuildString(),
-    channel:            'prod',
-    version:            app.getVersion(),
+    autoDownload: true,
+    build: makeBuildString(),
+    channel: 'prod',
+    version: app.getVersion(),
   };
 
   if (typeof options === 'string') {

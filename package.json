@@ -2,19 +2,20 @@
   "name": "electron-simple-updater",
   "version": "1.5.0",
   "description": "Simple way to enable update for the electron application",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "npm run lint && npm run tslint && npm run mocha",
-    "mocha": "mocha 'spec/mocks/*.mock.js' 'spec/**/*.js'",
-    "lint": "eslint '**/*.js' --ignore-pattern 'node_modules'",
-    "tslint": "tslint -p . -t verbose index.d.ts"
+    "test": "humile",
+    "test:full": "npm run test && npm run lint",
+    "lint": "eslint 'src/**/*.js' && tsc --noEmit",
+    "postversion": "git push && git push --tags",
+    "preversion": "npm run test:full",
+    "prepack": "npm run test:full"
   },
   "typings": "index.d.ts",
   "repository": "megahertz/electron-simple-updater",
   "files": [
-    "index.js",
-    "index.d.ts",
-    "lib/*"
+    "src/*",
+    "!__specs__"
   ],
   "keywords": [
     "electron",
@@ -37,20 +38,16 @@
     "node": ">=8.0"
   },
   "devDependencies": {
-    "chai": "*",
     "electron": "*",
-    "eslint": "*",
-    "eslint-config-airbnb-base": "*",
-    "eslint-plugin-import": "*",
-    "mocha": "*",
-    "mock-require": "*",
-    "sinon": "*",
-    "sinon-chai": "*",
-    "tslint": "^5.14.0",
-    "typescript": "^3.3.4000"
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "humile": "^0.2.16",
+    "mock-require": "^3.0.3",
+    "typescript": "^3.7.4"
   },
   "dependencies": {
     "httpreq": "0.4.24",
-    "semver": "*"
+    "semver": "^7.1.1"
   }
 }

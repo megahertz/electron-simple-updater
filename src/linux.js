@@ -1,10 +1,10 @@
 'use strict';
 
 const { exec, spawn } = require('child_process');
-const { app }         = require('electron');
-const fs              = require('fs');
-const request         = require('httpreq');
-const path            = require('path');
+const { app } = require('electron');
+const fs = require('fs');
+const request = require('httpreq');
+const path = require('path');
 
 class DesktopFile {
   constructor(content, filePath) {

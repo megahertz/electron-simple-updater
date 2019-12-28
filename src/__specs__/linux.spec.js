@@ -1,20 +1,17 @@
 'use strict';
 
-const { expect } = require('chai');
-const path       = require('path');
-const {
-  DesktopFile,
-  extractDesktopFile,
-} = require('../../lib/linux');
+const { describe, expect, it } = require('humile');
+const path = require('path');
+const { DesktopFile, extractDesktopFile } = require('../linux');
 
 describe('linux lib', () => {
   describe('DesktopFile', () => {
-    const fileName = path.join(__dirname, '../resources/sample.desktop');
+    const fileName = path.join(__dirname, 'resources/sample.desktop');
 
     it('should be loaded from a file', async () => {
       const file = await DesktopFile.load(fileName);
-      expect(file.version).equals('0.0.2');
-      expect(file.buildId).equals('1DPB0c43blt5k3jZmv15VXKdKRm');
+      expect(file.version).toBe('0.0.2');
+      expect(file.buildId).toBe('1DPB0c43blt5k3jZmv15VXKdKRm');
     });
 
     it('should modify version and build id data', async () => {
@@ -22,7 +19,7 @@ describe('linux lib', () => {
       file.version = '0.0.3';
       file.buildId = 'Build-003';
 
-      expect(file.content).equals([
+      expect(file.content).toBe([
         '[Desktop Entry]',
         'Name=appimage',
         'Comment=electron-simple-updater test project',
@@ -36,10 +33,10 @@ describe('linux lib', () => {
 
   it('should extract desktop file from AppImage', async () => {
     const file = await extractDesktopFile(
-      path.join(__dirname, '../resources/sample.AppImage')
+      path.join(__dirname, 'resources/sample.AppImage')
     );
 
-    expect(file.buildId).equals('1DPB0c43blt5k3jZmv15VXKdKRm');
-    expect(file.version).equals('0.0.1');
+    expect(file.buildId).toBe('1DPB0c43blt5k3jZmv15VXKdKRm');
+    expect(file.version).toBe('0.0.1');
   });
 });

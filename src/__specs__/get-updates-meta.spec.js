@@ -1,7 +1,7 @@
 'use strict';
 
-const { expect }     = require('chai');
-const getUpdatesMeta = require('../../lib/get-updates-meta');
+const { describe, expect, it } = require('humile');
+const getUpdatesMeta = require('../get-updates-meta');
 
 const extractUpdateMeta = getUpdatesMeta.extractUpdateMeta;
 
@@ -16,18 +16,18 @@ describe('get-updates-meta lib', () => {
     };
 
     expect(extractUpdateMeta(meta, 'win32-x64', 'prod', '1.0.1'))
-      .to.equal(false);
+      .toBe(false);
     expect(extractUpdateMeta(meta, 'win32-ia32', 'beta', '1.0.1'))
-      .to.equal(meta['win32-ia32-beta']);
+      .toBe(meta['win32-ia32-beta']);
     expect(extractUpdateMeta(meta, undefined, 'beta', '1.0.1'))
-      .to.equal(false);
+      .toBe(false);
 
     expect(extractUpdateMeta(meta, 'darwin-x64', 'prod', '2.0.0'))
-      .to.equal(false);
+      .toBe(false);
     expect(extractUpdateMeta(meta, 'darwin-x64', 'prod', '1.9.0'))
-      .to.equal(meta['darwin-x64-prod']);
+      .toBe(meta['darwin-x64-prod']);
 
     expect(extractUpdateMeta(meta, 'nsis', 'prod', '0.3.0'))
-      .to.equal(meta['nsis-prod']);
+      .toBe(meta['nsis-prod']);
   });
 });

@@ -1,21 +1,21 @@
 'use strict';
 
-const { expect }       = require('chai');
-const normalizeOptions = require('../../lib/normalize-options');
+const { after, before, describe, expect, it } = require('humile');
+const normalizeOptions = require('../normalize-options');
 
-const makeBuildString        = normalizeOptions.makeBuildString;
+const makeBuildString = normalizeOptions.makeBuildString;
 const loadOptionsFromPackage = normalizeOptions.loadOptionsFromPackage;
 
 describe('normalize-options lib', () => {
-  beforeEach(() => {
-    this.originalPlatform        = process.platform;
-    this.originalArch            = process.arch;
+  before(() => {
+    this.originalPlatform = process.platform;
+    this.originalArch = process.arch;
 
     Object.defineProperty(process, 'platform', { value: 'win32' });
     Object.defineProperty(process, 'arch',     { value: 'x64' });
   });
 
-  afterEach(() => {
+  after(() => {
     Object.defineProperty(process, 'platform', {
       value: this.originalPlatform,
     });
@@ -23,15 +23,15 @@ describe('normalize-options lib', () => {
   });
 
   it('should make a build string', () => {
-    expect(makeBuildString()).to.equal('win32-x64');
+    expect(makeBuildString()).toBe('win32-x64');
 
     process.mas = true;
-    expect(makeBuildString()).to.equal('mas-x64');
+    expect(makeBuildString()).toBe('mas-x64');
     delete process.mas;
   });
 
   it('should read options from a package.json', () => {
-    expect(loadOptionsFromPackage()).to.deep.equal({
+    expect(loadOptionsFromPackage()).toEqual({
       appName: 'esu-test',
       url: 'https://example.com/updates.json',
       version: '0.0.1',
@@ -40,11 +40,12 @@ describe('normalize-options lib', () => {
 
   it('should properly use default values', () => {
     const opt1 = normalizeOptions();
-    expect(opt1).to.have.property('checkUpdateOnStart', true);
-    expect(opt1).to.have.property('autoDownload', true);
-    expect(opt1).to.have.property('url', 'https://example.com/updates.json');
+
+    expect(opt1.checkUpdateOnStart).toBe(true);
+    expect(opt1.autoDownload).toBe(true);
+    expect(opt1.url).toBe('https://example.com/updates.json');
 
     const opt2 = normalizeOptions({ autoDownload: false });
-    expect(opt2).to.have.property('autoDownload', false);
+    expect(opt2.autoDownload).toBe(false);
   });
 });

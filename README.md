@@ -37,7 +37,7 @@ You can find a sample of updates.json in the [the example](example)
 
     ```js
     // Just place this code at the entry point of your application:
-    const updater = require('electron-simple-updater');
+    const updater = require('src/index');
     updater.init('https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/updates.json');
     ```
     You can set this link in package.json:updater.url instead of init() argument.

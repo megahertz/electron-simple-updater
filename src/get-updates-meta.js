@@ -22,9 +22,7 @@ module.exports.extractUpdateMeta = extractUpdateMeta;
  */
 function getUpdatesMeta(updatesUrl, build, channel, version) {
   return getJson(updatesUrl)
-    .then((meta) => {
-      return extractUpdateMeta(meta, build, channel, version);
-    });
+    .then(meta => extractUpdateMeta(meta, build, channel, version));
 }
 
 function extractUpdateMeta(updatesMeta, build, channel, version) {

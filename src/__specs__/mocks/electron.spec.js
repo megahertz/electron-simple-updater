@@ -1,11 +1,11 @@
 'use strict';
 
+const { jasmine } = require('humile');
 const mock  = require('mock-require');
-const sinon = require('sinon');
 
 mock('electron', {
   app: {
-    quit: sinon.spy(),
+    quit: jasmine.createSpy(),
     getAppPath() {
       return __dirname;
     },

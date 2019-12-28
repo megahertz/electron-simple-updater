@@ -3,8 +3,8 @@
 // Based on https://github.com/electron/grunt-electron-installer
 
 const { app } = require('electron');
-const path    = require('path');
-const spawn   = require('child_process').spawn;
+const path = require('path');
+const spawn = require('child_process').spawn;
 
 
 const SQUIRREL_INSTALL   = 'squirrel-install';

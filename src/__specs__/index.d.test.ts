@@ -1,0 +1,1 @@
+import { checkForUpdates } from '../index';

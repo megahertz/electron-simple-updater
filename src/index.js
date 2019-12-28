@@ -1,11 +1,11 @@
 'use strict';
 
 const { app, autoUpdater } = require('electron');
-const events               = require('events');
-const getUpdatesMeta       = require('./lib/get-updates-meta');
-const linux                = require('./lib/linux');
-const normalizeOptions     = require('./lib/normalize-options');
-const win32                = require('./lib/win32');
+const events = require('events');
+const getUpdatesMeta = require('./get-updates-meta');
+const linux = require('./linux');
+const normalizeOptions = require('./normalize-options');
+const win32 = require('./win32');
 
 class SimpleUpdater extends events.EventEmitter {
   constructor() {
@@ -13,21 +13,21 @@ class SimpleUpdater extends events.EventEmitter {
 
     // Just for better auto-complete
     this.options = {
-      autoDownload:       true,
-      build:              '',
-      channel:            'prod',
+      autoDownload: true,
+      build: '',
+      channel: 'prod',
       checkUpdateOnStart: true,
-      disabled:           false,
-      empty:              true, // Mark that it's not initialized
-      logger:             console,
-      version:            '',
-      url:                '',
+      disabled: false,
+      empty: true, // Mark that it's not initialized
+      logger: console,
+      version: '',
+      url: '',
     };
 
     this.meta = {
-      empty:     true, // Mark that it's not initialized
-      version:   '',
-      update:    '',
+      empty: true, // Mark that it's not initialized
+      version: '',
+      update: '',
     };
 
     autoUpdater.on('update-downloaded', () => {
@@ -150,7 +150,7 @@ class SimpleUpdater extends events.EventEmitter {
      */
     this.emit('checking-for-update');
 
-    //noinspection JSUnresolvedFunction
+    // noinspection JSUnresolvedFunction,JSValidateTypes
     getUpdatesMeta(opt.url, opt.build, opt.channel, opt.version)
       .then((updateMeta) => {
         if (updateMeta) {
