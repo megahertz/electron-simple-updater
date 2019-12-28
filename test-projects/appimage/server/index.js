@@ -24,7 +24,7 @@ app.listen(3003, function () {
 });
 
 function startAppImageV1() {
-  const v1 = spawn('../v0.0.1/dist/appimage-0.0.1-x86_64.AppImage', [], {
+  const v1 = spawn('../v0.0.1/dist/appimage-0.0.1.AppImage', [], {
     env: { ...process.env, DESKTOPINTEGRATION: 1 },
     stdio: 'inherit',
   });

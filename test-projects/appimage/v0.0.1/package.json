@@ -9,7 +9,8 @@
     "appId": "com.github.megahertz.esu.appimage",
     "linux": {
       "category": "Development"
-    }
+    },
+    "electronVersion": "7.1.7"
   },
   "updater": {
     "url": "http://127.0.0.1:3003/updates/updates.json"
