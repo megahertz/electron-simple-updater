@@ -1,6 +1,6 @@
 {
   "name": "electron-simple-updater",
-  "version": "1.6.0",
+  "version": "2.0.0-beta.1",
   "description": "Simple way to enable update for the electron application",
   "main": "src/index.js",
   "scripts": {
@@ -38,12 +38,11 @@
     "node": ">=8.0"
   },
   "devDependencies": {
-    "electron": "*",
+    "@types/node": "^13.1.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.19.1",
     "humile": "^0.2.16",
-    "mock-require": "^3.0.3",
     "typescript": "^3.7.4"
   },
   "dependencies": {

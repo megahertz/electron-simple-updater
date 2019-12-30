@@ -1,23 +1,29 @@
-/// <reference types="node" />
+import { EventEmitter } from 'events';
 
 declare namespace SimpleUpdater {
-  interface ILogger {
-    debug?(...args: any): void;
-    info(...args: any): void;
+  interface Logger {
+    error(...args: any): void;
     warn(...args: any): void;
+    info(...args: any): void;
+    debug(...args: any): void;
   }
 
-  interface IOptions {
+  interface Meta {
+    update: string;
+    version: string;
+  }
+
+  interface Options {
     /**
      * Automatically download an update when it's' found in updates.json
      */
-    autoDownload?: boolean;
+    autoDownload: boolean;
 
     /**
      * An application which is built for channel like 'beta' will receive updates
      * only from this channel
      */
-    channel?: string;
+    channel: string;
 
     /**
      * Check for updates immediately when init() is called
@@ -37,21 +43,21 @@ declare namespace SimpleUpdater {
      *
      * Set it to false if you would like to disable a logging feature
      */
-    logger?: ILogger | false;
+    logger: Partial<Logger> | false;
 
     /**
      * Current app version. In most cases, you should not pass this options
      * manually, it is read by electron from version at package.json
      */
-    version?: string;
+    version: string;
 
     /**
      * The only required parameter. This is a URL updates.json file
      */
-    url?: string;
+    url: string;
   }
 
-  interface SimpleUpdater extends NodeJS.EventEmitter {
+  interface SimpleUpdater extends EventEmitter {
     /**
      * ${platform}-${arch}
      */
@@ -77,7 +83,7 @@ declare namespace SimpleUpdater {
      * By default it finish the process if run by Squirrel.Windows installer
      * @fires SimpleUpdater#error:Event
      */
-    init(options?: IOptions): this;
+    init(options?: Partial<Options>): this;
 
     /**
      * Asks the server whether there is an update. url must be set before
@@ -106,8 +112,8 @@ declare namespace SimpleUpdater {
     /**
      * Set one or a few options
      */
-    setOptions(options: IOptions): this;
-    setOptions(name: keyof IOptions, value: any): this;
+    setOptions(options: Options): this;
+    setOptions(name: keyof Options, value: any): this;
 
     /**
      * Return the current updates.json URL

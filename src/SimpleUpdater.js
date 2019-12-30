@@ -1,124 +1,67 @@
 'use strict';
 
-const { app, autoUpdater } = require('electron');
-const events = require('events');
-const getUpdatesMeta = require('./get-updates-meta');
-const linux = require('./linux');
-const normalizeOptions = require('./normalize-options');
-const win32 = require('./win32');
+const { EventEmitter } = require('events');
+const { createPlatform } = require('./platform');
+const electronApi = require('./utils/electronApi');
+const Logger = require('./utils/Logger');
+const { getUpdatesMeta } = require('./utils/meta');
+const { getOptions } = require('./utils/options');
 
-class SimpleUpdater extends events.EventEmitter {
+class SimpleUpdater extends EventEmitter {
   constructor() {
     super();
 
-    // Just for better auto-complete
-    this.options = {
-      autoDownload: true,
-      build: '',
-      channel: 'prod',
-      checkUpdateOnStart: true,
-      disabled: false,
-      empty: true, // Mark that it's not initialized
-      logger: console,
-      version: '',
-      url: '',
-    };
+    /**
+     * @type {Options}
+     */
+    this.options = getOptions();
 
+    /**
+     * @type {Logger}
+     */
+    this.logger = new Logger(this.options);
+
+    /**
+     * @type {SimpleUpdater.Meta}
+     */
     this.meta = {
-      empty: true, // Mark that it's not initialized
-      version: '',
       update: '',
+      version: '',
     };
 
-    autoUpdater.on('update-downloaded', () => {
+    this.platform = createPlatform(
+      this.options,
+      this.logger,
+      this.emit.bind(this)
+    );
+
+    electronApi.onUpdater('update-downloaded', () => {
       const version = this.meta.version;
-      this.options.logger.info(`New version ${version} has been downloaded`);
-      /**
-       * @event SimpleUpdater#update-downloaded
-       * @param {object} meta Update metadata
-       */
+      this.logger.info(`New version ${version} has been downloaded`);
       this.emit('update-downloaded', this.meta);
     });
 
-    this.on('error', (e) => {
-      if (this.options.logger) {
-        this.options.logger.warn(e);
-      }
-    });
-    autoUpdater.on('error', e => this.emit('error', e));
+    this.on('error', this.logger.warn);
+    electronApi.onUpdater('error', e => this.emit('error', e));
   }
 
   /**
-   * Initialize a package.
-   * By default it finish the process if run by Squirrel.Windows installer
-   *
-   * @param {object|string} [options]
-   * @param {boolean}   [options.autoDownload=true] Automatically download an
-   *   update when it is found in updates.json
-   * @param {string} [options.build] Build type, like 'linux-x64'
-   *   or 'win32-ia32'
-   * @param {string} [options.channel=prod] An application which is built for
-   *   channel like 'beta' will receive updates only from this channel
-   * @param {boolean}   [options.checkUpdateOnStart=true] Check for updates
-   *   immediately when init() is called
-   * @param {boolean}   [options.disabled=false] Disable update feature.
-   *   This option is set to true automatically for applications built for
-   *   Mac AppStore or Windows Store
-   * @param {object} [options.logger=console] You can pass electron-log,
-   *   winston or another logger with the following interface:
-   *   { info(){}, warn(){} }. Set it to false if you would like to disable
-   *   a logging feature
-   * @param {string} [options.version] Current app version. In most cases,
-   *   you should not pass this options manually, it is read by electron
-   *   from version at package.json
-   * @param {string} [options.url] URL to a file updates.json
-   *
-   * @fires SimpleUpdater#error
-   * @return {SimpleUpdater}
+   * Initialize updater module
+   * @param {Partial<Option> | string} options
+   * @return {this}
    */
-  init(options) {
-    if (!this.options.empty) {
-      /**
-       * @event SimpleUpdater#error
-       * @param {object|string} error
-       */
-      this.emit(
-        'error',
-        'electron-simple updater has been initialized before'
-      );
-
-      return this;
-    }
-
-    // Return if we run not compiled application
-    if (app.isPackaged === false || app.getName() === 'Electron') {
+  init(options = {}) {
+    if (!electronApi.isPackaged()) {
+      this.logger.warn('Update is disabled because the app is not packaged');
       this.options.disabled = true;
       return this;
     }
 
-    this.options = normalizeOptions(options);
-
-    const squirrelAction = win32.getSquirrelInstallerAction();
-    if (squirrelAction) {
-      const event = { squirrelAction, preventDefault: false };
-
-      /**
-       * @event SimpleUpdater#squirrel-win-installer
-       * @param {string} action one of:
-       *   squirrel-install
-       *   squirrel-updated
-       *   squirrel-uninstall
-       *   squirrel-obsolete
-       */
-      this.emit('squirrel-win-installer', event);
-
-      if (!event.preventDefault) {
-        win32.processSquirrelInstaller(squirrelAction);
-        process.exit();
-      }
-
-      return this;
+    if (!this.options.initialize(options, this.logger)) {
+      this.logger.warn('Update is disabled because of wrong configuration');
     }
+
+    this.platform.init();
 
     if (this.options.checkUpdateOnStart) {
       this.checkForUpdates();
@@ -129,17 +72,13 @@ class SimpleUpdater extends events.EventEmitter {
 
   /**
    * Asks the server whether there is an update. url must be set before
-   * this call
-   * @fires SimpleUpdater#error
-   * @fires SimpleUpdater#checking-for-update
-   * @fires SimpleUpdater#update-not-available
-   * @return {SimpleUpdater}
+   * @return {this}
    */
   checkForUpdates() {
     const opt = this.options;
 
     if (opt.disabled) {
-      opt.logger.warn('Update is disabled');
+      this.logger.warn('Update is disabled');
       return this;
     }
 
@@ -148,9 +87,6 @@ class SimpleUpdater extends events.EventEmitter {
       return this;
     }
 
-    /**
-     * @event SimpleUpdater#checking-for-update
-     */
     this.emit('checking-for-update');
 
     // noinspection JSUnresolvedFunction,JSValidateTypes
@@ -161,13 +97,7 @@ class SimpleUpdater extends events.EventEmitter {
           return;
         }
 
-        opt.logger.debug && opt.logger.debug(
-          `Update for ${this.buildId} is not available`
-        );
-
-        /**
-         * @event SimpleUpdater#update-not-available
-         */
+        this.logger.debug(`Update for ${this.buildId} is not available`);
         this.emit('update-not-available');
       })
       .catch(e => this.emit('error', e));
@@ -178,44 +108,18 @@ class SimpleUpdater extends events.EventEmitter {
   /**
    * Start downloading update manually.
    * You can use this method if autoDownload option is set to false
-   * @fires SimpleUpdater#update-downloading
-   * @fires SimpleUpdater#update-downloaded
-   * @fires SimpleUpdater#error
-   * @return {SimpleUpdater}
+   * @return {this}
    */
   downloadUpdate() {
     if (!this.meta.update) {
-      const msg = 'There is no metadata for update. Run checkForUpdates first.';
-      this.emit('error', msg);
+      this.emit('error', 'No metadata for update. Run checkForUpdates first.');
       return this;
     }
 
-    let feedUrl = autoUpdater.getFeedURL();
-
-    /**
-     * @event SimpleUpdater#update-downloading
-     * @param {object} meta Update metadata
-     */
     this.emit('update-downloading', this.meta);
+    this.options.logger.info(`Downloading updates from ${this.meta.update}`);
 
-    if (process.platform === 'linux') {
-      feedUrl = this.meta.update;
-
-      linux.downloadUpdate(feedUrl, this.options.logger, this.options.appName)
-        .then((appImagePath) => {
-          this.appImagePath = appImagePath;
-          const version = this.meta.version;
-          this.options.logger.info(
-            `New version ${version} has been downloaded`
-          );
-          this.emit('update-downloaded', this.meta);
-        })
-        .catch(e => this.emit('error', e));
-    } else {
-      autoUpdater.checkForUpdates();
-    }
-
-    this.options.logger.info(`Downloading updates from ${feedUrl}`);
+    this.platform.downloadUpdate(this.meta);
 
     return this;
   }
@@ -226,26 +130,17 @@ class SimpleUpdater extends events.EventEmitter {
    * @return {void}
    */
   quitAndInstall() {
-    if (this.appImagePath) {
-      return linux.quitAndInstall();
-    }
-
-    return autoUpdater.quitAndInstall();
+    this.platform.quitAndInstall();
   }
 
   /**
    * Set one or a few options
    * @param {string|object} name
    * @param {*} value
-   * @return {SimpleUpdater}
+   * @return {this}
    */
   setOptions(name, value = null) {
-    if (typeof name === 'object') {
-      Object.assign(this.options, name);
-      return this;
-    }
-
-    this.options[name] = value;
+    this.options.setOptions(name, value);
     return this;
   }
 
@@ -274,20 +169,6 @@ class SimpleUpdater extends events.EventEmitter {
   }
 
   /**
-   * Sets the url and initialize the auto updater.
-   * Instead of built-in auto-updater, it's a URL to updates.json
-   * @deprecated
-   * @param {string} url
-   */
-  setFeedURL(url) {
-    if (this.options.empty) {
-      this.init(url);
-    } else {
-      this.options.url = url;
-    }
-  }
-
-  /**
    * Return the current updates.json URL
    * @return {string}
    */
@@ -298,24 +179,14 @@ class SimpleUpdater extends events.EventEmitter {
 
   /**
    * Called when updates metadata has been downloaded
-   * @private
-   * @fires SimpleUpdater#update-available
    * @param {object} meta
+   * @private
    */
   onFoundUpdate(meta) {
     this.meta = meta;
     const opt = this.options;
 
-    if (opt.logger.debug) {
-      opt.logger.debug(`Found version ${meta.version} at ${meta.update}`);
-    }
-
-    autoUpdater.setFeedURL(meta.update);
-
-    /**
-     * @event SimpleUpdater#update-available
-     * @param {object} meta Update metadata
-     */
+    opt.logger.debug(`Found version ${meta.version} at ${meta.update}`);
     this.emit('update-available', meta);
 
     if (opt.autoDownload) {
@@ -324,13 +195,12 @@ class SimpleUpdater extends events.EventEmitter {
   }
 
   /**
-   * @private
-   * @fires SimpleUpdater#error
    * @return {boolean}
+   * @private
    */
   checkIsInitialized() {
-    if (this.options.empty) {
-      this.emit('error', 'electron-simple-updater is not initialized');
+    if (this.options.isInitialized) {
+      this.emit('error', new Error('Not initialized'));
       return false;
     }
 
