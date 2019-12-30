@@ -9,6 +9,7 @@ declare namespace SimpleUpdater {
   }
 
   interface Meta {
+    sha256?: string;
     update: string;
     version: string;
   }

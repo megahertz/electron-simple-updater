@@ -5,6 +5,7 @@ const fs = require('fs');
 const request = require('httpreq');
 const os = require('os');
 const path = require('path');
+const { calcSha256Hash } = require('../utils/file');
 const electronApi = require('../utils/electronApi');
 const Platform = require('./Platform');
 
@@ -82,6 +83,11 @@ class Linux extends Platform {
     this.lastUpdatePath = this.getUpdatePath(meta.version);
 
     await downloadFile(meta.update, this.lastUpdatePath);
+
+    if (meta.sha256) {
+      await this.checkHash(meta.sha256, this.lastUpdatePath);
+    }
+
     await setExecFlag(this.lastUpdatePath);
 
     electronApi.onceApp('will-quit', this.quitAndInstall);
@@ -102,6 +108,15 @@ class Linux extends Platform {
   getUpdatePath(version) {
     const fileName = `${electronApi.getAppName()}-${version}.AppImage`;
     return path.join(os.tmpdir(), fileName);
+  }
+
+  async checkHash(hash, filePath) {
+    const fileHash = await calcSha256Hash(filePath);
+    if (fileHash !== hash) {
+      throw new Error(
+        `Update is corrupted. Expected hash: ${hash}, actual: ${fileHash}`
+      );
+    }
   }
 }
 
