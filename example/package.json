@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "install-app-deps",
     "start": "electron .",
-    "dist": "build",
+    "dist": "electron-builder",
     "publish": "publish",
     "release": "npm run dist && npm run publish"
   },
@@ -16,16 +16,15 @@
   "private": true,
   "build": {
     "appId": "megahertz.electron-simple-updater-example",
-    "appImage": {
-      "systemIntegration": "doNotAsk"
-    },
     "files": [
       "!publisher.json",
       "!README.md",
       "!updates.json"
     ],
     "linux": {
-      "category": "Development"
+      "category": "Development",
+      "publish": false,
+      "target": "AppImage"
     },
     "mac": {
       "category": "public.app-category.developer-tools"
@@ -48,7 +47,7 @@
     "url": "git+https://github.com/megahertz/electron-simple-updater.git"
   },
   "dependencies": {
-    "electron-simple-updater": "^1.2.0"
+    "electron-simple-updater": "^2.0.0-beta.1"
   },
   "devDependencies": {
     "electron": "*",

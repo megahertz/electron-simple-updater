@@ -14,6 +14,7 @@
   "linux-x64-prod": {
     "update": "https://github.com/megahertz/electron-simple-updater/releases/download/linux-x64-prod-v0.0.2/simple-updater-example-0.0.2-x86_64.AppImage",
     "install": "https://github.com/megahertz/electron-simple-updater/releases/download/linux-x64-prod-v0.0.2/simple-updater-example-0.0.2-x86_64.AppImage",
-    "version": "0.0.2"
+    "version": "0.0.2",
+    "sha256": "50e30322cdc83c0af182fff773920d6e093eff7d4c22bf19bca5cbdf762ab1fb"
   }
 }
