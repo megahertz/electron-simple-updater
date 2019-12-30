@@ -75,13 +75,19 @@ class Linux extends Platform {
   async downloadUpdateFile(meta) {
     this.lastUpdatePath = this.getUpdatePath(meta.version);
 
-    await downloadFile(meta.update, this.lastUpdatePath);
-
-    if (meta.sha256) {
-      await this.checkHash(meta.sha256, this.lastUpdatePath);
+    if (!fs.existsSync(this.lastUpdatePath)) {
+      await downloadFile(meta.update, this.lastUpdatePath);
+      await setExecFlag(this.lastUpdatePath);
     }
 
-    await setExecFlag(this.lastUpdatePath);
+    if (meta.sha256) {
+      try {
+        await this.checkHash(meta.sha256, this.lastUpdatePath);
+      } catch (e) {
+        await fs.promises.unlink(this.lastUpdatePath);
+        throw e;
+      }
+    }
 
     electronApi.onceApp('will-quit', this.quitAndInstall);
 
