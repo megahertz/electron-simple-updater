@@ -50,13 +50,6 @@ class Linux extends Platform {
       rm "\${UPDATE_FILE}"
     `;
 
-    console.log(updateScript, {
-      APP_IMAGE: this.getAppImagePath(),
-      OLD_PID: process.pid,
-      RESTART_REQUIRED: restartRequired === true ? 'true' : 'false',
-      UPDATE_FILE: this.lastUpdatePath,
-    });
-
     const proc = spawn('/bin/bash', ['-c', updateScript], {
       detached: true,
       stdio: 'ignore',
