@@ -1,7 +1,7 @@
 'use strict';
 
 const { app, BrowserWindow } = require('electron');
-const { request }            = require('http');
+const { request } = require('http');
 
 const SHOW_WINDOW = false;
 

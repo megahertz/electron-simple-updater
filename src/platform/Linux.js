@@ -31,7 +31,7 @@ class Linux extends Platform {
   /**
    * @param {boolean} restartRequired
    */
-  quitAndInstall(restartRequired = false) {
+  quitAndInstall(restartRequired = true) {
     if (!this.lastUpdatePath) {
       return;
     }
@@ -48,6 +48,13 @@ class Linux extends Platform {
       kill "\${OLD_PID}" $(ps -h --ppid "\${OLD_PID}" -o pid)
       rm "\${UPDATE_FILE}"
     `;
+
+    console.log(updateScript, {
+      APP_IMAGE: this.getAppImagePath(),
+      OLD_PID: process.pid,
+      RESTART_REQUIRED: restartRequired === true ? 'true' : 'false',
+      UPDATE_FILE: this.lastUpdatePath,
+    });
 
     const proc = spawn('/bin/bash', ['-c', updateScript], {
       detached: true,
@@ -72,15 +79,14 @@ class Linux extends Platform {
    * @package
    */
   async downloadUpdateFile(meta) {
-    this.lastUpdatePath = this.getAppImagePath();
-    const updateFilePath = this.getUpdatePath(meta.version);
+    this.lastUpdatePath = this.getUpdatePath(meta.version);
 
-    await downloadFile(meta.update, updateFilePath);
-    await setExecFlag(updateFilePath);
+    await downloadFile(meta.update, this.lastUpdatePath);
+    await setExecFlag(this.lastUpdatePath);
 
     electronApi.onceApp('will-quit', this.quitAndInstall);
 
-    return updateFilePath;
+    return this.lastUpdatePath;
   }
 
   getAppImagePath() {
