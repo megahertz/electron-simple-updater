@@ -49,7 +49,8 @@ This is a requirement of Squirrel.Mac.
 3. Upload your release with update.json to a hosting. You can 
 do it [manually](example/updates.json) or use
 [electron-simple-publisher](https://github.com/megahertz/electron-simple-publisher)
-to simplify this process. Note: Squirrel.Mac requires a properly prepared `release.json` file. A release in the property `url` must be zipped .app file.
+to simplify this process. Note: Squirrel.Mac requires a properly prepared
+`release.json` file. A release in the property `url` must be zipped .app file.
 
 4. That's it!
 
@@ -72,7 +73,7 @@ checkUpdateOnStart  | true                    | Check for updates immediately wh
 disabled            | false                   | Disable update feature. This option is set to true automatically for applications built for Mac App Store or Windows Store
 logger              | console                 | You can pass [electron-log](https://github.com/megahertz/electron-log), [winston](https://github.com/winstonjs/winston) or another logger with the following interface: { debug(), info(), warn() }. Set it to false if you would like to disable a logging feature 
 version             | app.getVersion()        | Current app version. In most cases, you should not pass this options manually, it is read by electron from version at package.json
-url*                | undefined               | The only required parameter. This is a URL to [updates.json](https://github.com/megahertz/electron-simple-updater/blob/master/example/updates.json) file
+url*                | undefined               | The only required parameter. This is a URL to [updates.json](https://github.com/megahertz/electron-simple-updater/blob/master/example/updates.json) file. You can use templates '{platform}', '{arch}' and '{channel}' in a file name.
     
 ### Method
     

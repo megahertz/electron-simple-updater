@@ -18,7 +18,14 @@ module.exports = {
  * @returns {Promise<object|void>}
  */
 async function getUpdatesMeta(updatesUrl, build, channel, version) {
-  const json = await getJson(updatesUrl);
+  const [platform, arch] = build.split('-');
+
+  const url = updatesUrl
+    .replace('{platform}', platform)
+    .replace('{arch}', arch)
+    .replace('{channel}', channel);
+
+  const json = await getJson(url);
   return extractUpdateMeta(json, build, channel, version);
 }
 
