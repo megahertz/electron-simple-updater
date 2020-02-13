@@ -73,7 +73,7 @@ function isPackaged() {
     return false;
   }
 
-  if (!app.isPackaged) {
+  if (app.isPackaged !== true) {
     return false;
   }
 
