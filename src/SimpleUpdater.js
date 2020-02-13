@@ -199,7 +199,7 @@ class SimpleUpdater extends EventEmitter {
    * @private
    */
   checkIsInitialized() {
-    if (this.options.isInitialized) {
+    if (!this.options.isInitialized) {
       this.emit('error', new Error('Not initialized'));
       return false;
     }
