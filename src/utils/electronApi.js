@@ -38,7 +38,7 @@ function onceApp(event, listener) {
 }
 
 function checkForUpdates() {
-  getAutoUpdater() && getAutoUpdater.checkForUpdates();
+  getAutoUpdater() && getAutoUpdater().checkForUpdates();
 }
 
 /**
