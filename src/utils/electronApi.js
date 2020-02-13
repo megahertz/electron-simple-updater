@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const Logger = require('./Logger');
 
 let electron;
 try {
@@ -10,6 +11,8 @@ try {
 } catch (e) {
   electron = null;
 }
+
+let logger = Logger.createEmpty();
 
 module.exports = {
   offApp,
@@ -21,6 +24,7 @@ module.exports = {
   onUpdater,
   readPackageJson,
   setFeedURL,
+  setLogger,
   quit,
   quitAndInstallUpdates,
 };
@@ -41,7 +45,7 @@ function checkForUpdates() {
  * @return {Electron.App}
  */
 function getApp() {
-  return electron && electron.app;
+  return getElectronModule('app');
 }
 
 /**
@@ -52,6 +56,25 @@ function getAppName() {
   if (!app) return '';
 
   return 'name' in app ? app.name : app.getName();
+}
+
+function getElectronModule(name) {
+  if (!electron) {
+    logger.error('electron is unavailable');
+    return null;
+  }
+
+  if (electron[name]) {
+    return electron[name];
+  }
+
+  if (electron.remote) {
+    return electron.remote[name];
+  }
+
+  logger.error(`electron.${name} module is unavailable`);
+
+  return null;
 }
 
 /**
@@ -65,7 +88,7 @@ function getAppVersion() {
  * @return {Electron.AutoUpdater}
  */
 function getAutoUpdater() {
-  return electron && electron.autoUpdater;
+  return getElectronModule('autoUpdater');
 }
 
 function isPackaged() {
@@ -86,22 +109,17 @@ function isPackaged() {
 }
 
 function setFeedURL(updateUrl) {
-  if (!electron) {
-    return;
+  getAutoUpdater() && getAutoUpdater().setFeedURL(updateUrl);
+}
+
+/**
+ * Set logger instance for electronApi
+ * @param {Logger} newLogger
+ */
+function setLogger(newLogger) {
+  if (newLogger instanceof Logger) {
+    logger = newLogger;
   }
-
-  let autoUpdater = electron.autoUpdater;
-
-  if (!autoUpdater) {
-    autoUpdater = electron.remote && electron.remote.autoUpdater;
-  }
-
-  if (!autoUpdater) {
-    console.warn('electron.autoUpdater module is not available');
-    return;
-  }
-
-  autoUpdater.setFeedURL(updateUrl);
 }
 
 function onUpdater(event, listener) {

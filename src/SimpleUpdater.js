@@ -20,6 +20,7 @@ class SimpleUpdater extends EventEmitter {
      * @type {Logger}
      */
     this.logger = new Logger(this.options);
+    electronApi.setLogger(this.logger);
 
     /**
      * @type {SimpleUpdater.Meta}
