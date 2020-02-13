@@ -20,6 +20,7 @@ module.exports = {
   isPackaged,
   onUpdater,
   readPackageJson,
+  setFeedURL,
   quit,
   quitAndInstallUpdates,
 };
@@ -82,6 +83,25 @@ function isPackaged() {
   }
 
   return true;
+}
+
+function setFeedURL(updateUrl) {
+  if (!electron) {
+    return;
+  }
+
+  let autoUpdater = electron.autoUpdater;
+
+  if (!autoUpdater) {
+    autoUpdater = electron.remote && electron.remote.autoUpdater;
+  }
+
+  if (!autoUpdater) {
+    console.warn('electron.autoUpdater module is not available');
+    return;
+  }
+
+  autoUpdater.setFeedURL(updateUrl);
 }
 
 function onUpdater(event, listener) {

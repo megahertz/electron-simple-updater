@@ -179,7 +179,7 @@ class SimpleUpdater extends EventEmitter {
 
   /**
    * Called when updates metadata has been downloaded
-   * @param {object} meta
+   * @param {*} meta
    * @private
    */
   onFoundUpdate(meta) {
