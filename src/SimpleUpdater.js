@@ -48,12 +48,16 @@ class SimpleUpdater extends EventEmitter {
 
   /**
    * Initialize updater module
-   * @param {Partial<Option> | string} options
+   * @param {Partial<Options> | string} options
    * @return {this}
    */
   init(options = {}) {
+    if (options.logger) {
+      this.options.setOptions('logger', options.logger);
+    }
+
     if (!electronApi.isPackaged()) {
-      this.logger.warn('Update is disabled because the app is not packaged');
+      this.logger.info('Update is disabled because the app is not packaged');
       this.options.disabled = true;
       return this;
     }
