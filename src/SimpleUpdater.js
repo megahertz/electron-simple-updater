@@ -122,7 +122,7 @@ class SimpleUpdater extends EventEmitter {
     }
 
     this.emit('update-downloading', this.meta);
-    this.options.logger.info(`Downloading updates from ${this.meta.update}`);
+    this.logger.info(`Downloading updates from ${this.meta.update}`);
 
     this.platform.downloadUpdate(this.meta);
 
@@ -191,7 +191,7 @@ class SimpleUpdater extends EventEmitter {
     this.meta = meta;
     const opt = this.options;
 
-    opt.logger.debug(`Found version ${meta.version} at ${meta.update}`);
+    this.logger.debug(`Found version ${meta.version} at ${meta.update}`);
     this.emit('update-available', meta);
 
     if (opt.autoDownload) {
