@@ -28,6 +28,11 @@ class Options {
     this.channel = 'prod';
 
     /**
+     * @type {object}
+     */
+    this.http = {};
+
+    /**
      * @type {string}
      */
     this.version = '';

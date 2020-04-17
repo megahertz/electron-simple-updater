@@ -3,6 +3,7 @@
 const { EventEmitter } = require('events');
 const { createPlatform } = require('./platform');
 const electronApi = require('./utils/electronApi');
+const HttpClient = require('./utils/HttpClient');
 const Logger = require('./utils/Logger');
 const { getUpdatesMeta } = require('./utils/meta');
 const { getOptions } = require('./utils/options');
@@ -30,10 +31,13 @@ class SimpleUpdater extends EventEmitter {
       version: '',
     };
 
+    this.httpClient = new HttpClient();
+
     this.platform = createPlatform(
       this.options,
       this.logger,
-      this.emit.bind(this)
+      this.emit.bind(this),
+      this.httpClient
     );
 
     electronApi.onUpdater('update-downloaded', () => {
@@ -66,6 +70,8 @@ class SimpleUpdater extends EventEmitter {
       this.logger.warn('Update is disabled because of wrong configuration');
     }
 
+    this.httpClient.setOptions(options.http);
+
     this.platform.init();
 
     if (this.options.checkUpdateOnStart) {
@@ -95,7 +101,13 @@ class SimpleUpdater extends EventEmitter {
     this.emit('checking-for-update');
 
     // noinspection JSUnresolvedFunction,JSValidateTypes
-    getUpdatesMeta(opt.url, opt.build, opt.channel, opt.version)
+    getUpdatesMeta(
+      this.httpClient,
+      opt.url,
+      opt.build,
+      opt.channel,
+      opt.version
+    )
       .then((updateMeta) => {
         if (updateMeta) {
           this.onFoundUpdate(updateMeta);

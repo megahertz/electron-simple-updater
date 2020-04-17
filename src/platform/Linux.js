@@ -2,7 +2,6 @@
 
 const { spawn } = require('child_process');
 const fs = require('fs');
-const request = require('httpreq');
 const os = require('os');
 const path = require('path');
 const { calcSha256Hash } = require('../utils/file');
@@ -10,8 +9,8 @@ const electronApi = require('../utils/electronApi');
 const Platform = require('./Platform');
 
 class Linux extends Platform {
-  constructor(options, logger, emit) {
-    super(options, logger, emit);
+  constructor(options, logger, emit, httpClient) {
+    super(options, logger, emit, httpClient);
 
     this.quitAndInstall = this.quitAndInstall.bind(this);
     this.lastUpdatePath = null;
@@ -76,7 +75,7 @@ class Linux extends Platform {
     this.lastUpdatePath = this.getUpdatePath(meta.version);
 
     if (!fs.existsSync(this.lastUpdatePath)) {
-      await downloadFile(meta.update, this.lastUpdatePath);
+      await this.httpClient.downloadFile(meta.update, this.lastUpdatePath);
       await setExecFlag(this.lastUpdatePath);
     }
 
@@ -117,22 +116,6 @@ class Linux extends Platform {
       );
     }
   }
-}
-
-async function downloadFile(url, savePath) {
-  return new Promise((resolve, reject) => {
-    request.download(url, savePath, (err, progress) => {
-      if (err) {
-        return reject(err);
-      }
-
-      if (progress.statusCode !== 200) {
-        return reject(progress.statusCode);
-      }
-
-      resolve(savePath);
-    });
-  });
 }
 
 async function setExecFlag(filePath) {

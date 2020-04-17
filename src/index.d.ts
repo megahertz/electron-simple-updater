@@ -38,6 +38,11 @@ declare namespace SimpleUpdater {
     disabled?: boolean;
 
     /**
+     * http.request options
+     */
+    http?: object;
+
+    /**
      * You can pass
      * [electron-log]{@link https://github.com/megahertz/electron-log},
      * [winston]{@link https://github.com/winstonjs/winston} or another logger.

@@ -7,8 +7,9 @@ class Platform {
    * @param {Options} options
    * @param {Logger} logger
    * @param {Function} emit
+   * @param {HttpClient} httpClient
    */
-  constructor(options, logger, emit) {
+  constructor(options, logger, emit, httpClient) {
     /**
      * @type {Function}
      */
@@ -23,6 +24,11 @@ class Platform {
      * @type {Logger}
      */
     this.logger = logger;
+
+    /**
+     * @type {HttpClient}
+     */
+    this.httpClient = httpClient;
   }
 
   init() {
