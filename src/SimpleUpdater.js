@@ -12,6 +12,13 @@ class SimpleUpdater extends EventEmitter {
   constructor() {
     super();
 
+    this.init = this.init.bind(this);
+    this.checkForUpdates = this.checkForUpdates.bind(this);
+    this.downloadUpdate = this.downloadUpdate.bind(this);
+    this.quitAndInstall = this.quitAndInstall.bind(this);
+    this.setOptions = this.setOptions.bind(this);
+    this.getFeedURL = this.getFeedURL.bind(this);
+
     /**
      * @type {Options}
      */
