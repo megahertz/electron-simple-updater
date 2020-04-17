@@ -5,8 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "test": "humile",
-    "test:full": "npm run test && npm run lint",
-    "lint": "eslint 'src/**/*.js' && tsc --noEmit",
+    "test:e2e": "./e2e/start",
+    "test:full": "npm run test && npm run lint && npm run test:e2e",
+    "lint": "eslint src && tsc --noEmit",
     "postversion": "git push && git push --tags",
     "preversion": "npm run test:full",
     "prepack": "npm run test:full"

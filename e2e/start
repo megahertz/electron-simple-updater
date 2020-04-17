@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+
+readonly __root="$(cd "$(dirname "$(dirname "$BASH_SOURCE")")"; pwd)"
+
+cd "${__root}/e2e/appimage"
+"${__root}/e2e/appimage/start"
