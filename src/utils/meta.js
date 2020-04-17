@@ -25,7 +25,7 @@ async function getUpdatesMeta(httpClient, updatesUrl, build, channel, version) {
     .replace('{arch}', arch)
     .replace('{channel}', channel);
 
-  const json = httpClient.getJson(url);
+  const json = await httpClient.getJson(url);
   return extractUpdateMeta(json, build, channel, version);
 }
 
