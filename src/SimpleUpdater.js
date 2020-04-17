@@ -38,7 +38,7 @@ class SimpleUpdater extends EventEmitter {
       version: '',
     };
 
-    this.httpClient = new HttpClient();
+    this.httpClient = new HttpClient(this.options);
 
     this.platform = createPlatform(
       this.options,
@@ -76,8 +76,6 @@ class SimpleUpdater extends EventEmitter {
     if (!this.options.initialize(options, this.logger)) {
       this.logger.warn('Update is disabled because of wrong configuration');
     }
-
-    this.httpClient.setOptions(options.http);
 
     this.platform.init();
 

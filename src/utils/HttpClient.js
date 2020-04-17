@@ -3,24 +3,16 @@
 const request = require('httpreq');
 
 class HttpClient {
-  constructor() {
-    this.options = {};
-  }
-
-  setOptions(options) {
-    options = options || {};
-    this.options = {
-      ...options,
-      headers: {
-        'User-Agent': 'electron-simple-updater',
-        ...options.headers,
-      },
-    };
+  /**
+   * @param {Options} options
+   */
+  constructor(options) {
+    this.options = options;
   }
 
   async getJson(url) {
     return new Promise((resolve, reject) => {
-      request.get(url, this.options, (err, response) => {
+      request.get(url, this.getHttpOptions(), (err, response) => {
         if (err) {
           reject(err);
           return;
@@ -40,7 +32,7 @@ class HttpClient {
   async downloadFile(url, savePath) {
     return new Promise((resolve, reject) => {
       const options = {
-        ...this.options,
+        ...this.getHttpOptions(),
         url,
         method: 'GET',
         downloadlocation: savePath,
@@ -59,6 +51,21 @@ class HttpClient {
         resolve(savePath);
       });
     });
+  }
+
+  /**
+   * @private
+   * @return {object}
+   */
+  getHttpOptions() {
+    const options = this.options.http || {};
+    return {
+      ...options,
+      headers: {
+        'User-Agent': 'electron-simple-updater',
+        ...options.headers,
+      },
+    };
   }
 }
 
