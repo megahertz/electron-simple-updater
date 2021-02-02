@@ -33,7 +33,7 @@ Install with [npm](https://npmjs.org/package/electron-simple-updater):
 
 ### Publish a new release
 1. Insert a link to a hosting where you will store updates.json to main.js. 
-You can find a sample of updates.json in the [the example](example)
+You can find a sample of updates.json in [the example](example)
 
     ```js
     // Just place this code at the entry point of your application:
