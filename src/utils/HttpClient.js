@@ -1,6 +1,7 @@
 'use strict';
 
 const request = require('httpreq');
+const fs = require('fs');
 
 class HttpClient {
   /**
@@ -45,6 +46,7 @@ class HttpClient {
         }
 
         if (res.statusCode !== 200) {
+          await fs.promises.unlink(savePath);
           return reject(new Error(`Wrong HTTP status: ${res.statusCode}`));
         }
 
