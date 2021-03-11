@@ -40,7 +40,7 @@ class HttpClient {
         allowRedirects: true,
       };
 
-      request.doRequest(options, (err, res) => {
+      request.doRequest(options, async (err, res) => {
         if (err) {
           return reject(err);
         }
