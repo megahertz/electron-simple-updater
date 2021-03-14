@@ -1,6 +1,7 @@
 'use strict';
 
 const request = require('httpreq');
+const fs = require('fs');
 
 class HttpClient {
   /**
@@ -39,12 +40,13 @@ class HttpClient {
         allowRedirects: true,
       };
 
-      request.doRequest(options, (err, res) => {
+      request.doRequest(options, async (err, res) => {
         if (err) {
           return reject(err);
         }
 
         if (res.statusCode !== 200) {
+          await fs.promises.unlink(savePath);
           return reject(new Error(`Wrong HTTP status: ${res.statusCode}`));
         }
 
