@@ -11,24 +11,25 @@ app.use('/updates', express.static(
 ));
 
 app.get('/finish', (req, res) => {
-  console.log('v2 is going to quit, pid', req.query.pid);
-  console.log('Successfully updated, test is finished.');
+  console.log('e2e: v2 is going to quit, pid', req.query.pid);
+  console.log('e2e: Successfully updated, test is finished.');
   res.send('ok');
   process.exit();
 });
 
 // eslint-disable-next-line func-names
 app.listen(3003, function () {
-  console.log(`Listening on port ${this.address().port}.`);
+  console.log(`e2e: Listening on port ${this.address().port}.`);
   startAppImageV1();
 });
 
 function startAppImageV1() {
+  console.log('e2e: Starting v1 process');
   const v1 = spawn('../v0.0.1/dist/appimage-0.0.1.AppImage', [], {
     stdio: 'inherit',
   });
 
   v1.on('exit', () => console.log('v1 process is killed'));
 
-  console.log('v1 process is started, pid', v1.pid);
+  console.log('e2e: v1 process is started, pid', v1.pid);
 }

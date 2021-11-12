@@ -56,7 +56,7 @@ class Linux extends Platform {
         ...process.env,
         APP_IMAGE: this.getAppImagePath(),
         OLD_PID: process.pid,
-        RESTART_REQUIRED: restartRequired === true ? 'true' : 'false',
+        RESTART_REQUIRED: String(restartRequired),
         UPDATE_FILE: this.lastUpdatePath,
       },
     });
@@ -64,6 +64,7 @@ class Linux extends Platform {
 
     if (restartRequired === true) {
       electronApi.quit();
+      process.exit();
     }
   }
 

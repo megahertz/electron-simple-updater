@@ -47,7 +47,7 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "httpreq": "0.4.24",
+    "axios": "^0.24.0",
     "semver": "^7.1.1"
   }
 }

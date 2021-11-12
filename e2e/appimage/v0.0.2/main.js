@@ -5,6 +5,8 @@ const { request } = require('http');
 
 const SHOW_WINDOW = false;
 
+console.log('e2e: v2 started');
+
 request(`http://localhost:3003/finish?pid=${process.pid}`, (res) => {
   res.on('data', () => SHOW_WINDOW || app.quit());
 }).end();

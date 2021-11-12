@@ -3,19 +3,15 @@
 set -e
 
 main() {
-  local start_step=1
+  local step="${1:-1}"
 
-  while [ $# -gt 0 ]; do case "$1" in
-    -s2) start_step=2;;
-    -s3) start_step=3;;
-  esac; shift; done
-
-  [ "${start_step}" -lt 2 ] && step1
-  [ "${start_step}" -lt 3 ] && step2
+  [ "${step}" -lt 2 ] && step1
+  [ "${step}" -lt 3 ] && step2
   step3
 }
 
 step1() {
+  echo "e2e: step1"
   npm ci
   npm ci --prefix server --production -s
   npm ci --prefix v0.0.1 --production -s
@@ -24,10 +20,12 @@ step1() {
 }
 
 step2() {
+  echo "e2e: step2"
   npm run build --prefix v0.0.1 -s
 }
 
 step3() {
+  echo "e2e: step3"
   npm start -s --prefix server
 }
 

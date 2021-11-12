@@ -1,7 +1,11 @@
 'use strict';
 
-const request = require('httpreq');
+const axios = require('axios');
 const fs = require('fs');
+const stream = require('stream');
+const util = require('util');
+
+const pipeline = util.promisify(stream.pipeline);
 
 class HttpClient {
   /**
@@ -12,47 +16,16 @@ class HttpClient {
   }
 
   async getJson(url) {
-    return new Promise((resolve, reject) => {
-      request.get(url, this.getHttpOptions(), (err, response) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        try {
-          resolve(JSON.parse(response.body));
-        } catch (e) {
-          reject(new Error(
-            `Error while parsing '${url}'. ${e}. Data:\\n ${response.body}`
-          ));
-        }
-      });
-    });
+    const { data } = await axios.get(url, this.getHttpOptions());
+    return data;
   }
 
   async downloadFile(url, savePath) {
-    return new Promise((resolve, reject) => {
-      const options = {
-        ...this.getHttpOptions(),
-        url,
-        method: 'GET',
-        downloadlocation: savePath,
-        allowRedirects: true,
-      };
-
-      request.doRequest(options, async (err, res) => {
-        if (err) {
-          return reject(err);
-        }
-
-        if (res.statusCode !== 200) {
-          await fs.promises.unlink(savePath);
-          return reject(new Error(`Wrong HTTP status: ${res.statusCode}`));
-        }
-
-        resolve(savePath);
-      });
+    const { data: httpRequest } = await axios.get(url, {
+      ...this.getHttpOptions(),
+      responseType: 'stream',
     });
+    return pipeline(httpRequest, fs.createWriteStream(savePath));
   }
 
   /**
@@ -64,7 +37,7 @@ class HttpClient {
     return {
       ...options,
       headers: {
-        'User-Agent': 'electron-simple-updater',
+        'User-Agent': 'electron-simple-updater 1.0',
         ...options.headers,
       },
     };
