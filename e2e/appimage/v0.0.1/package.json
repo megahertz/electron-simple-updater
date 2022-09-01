@@ -10,7 +10,7 @@
     "linux": {
       "category": "Development"
     },
-    "electronVersion": "15.3.1"
+    "electronVersion": "20.1.1"
   },
   "updater": {
     "url": "http://127.0.0.1:3003/updates/updates.json"
