@@ -3,41 +3,48 @@
 /* eslint-env browser */
 /* eslint-disable no-restricted-globals, no-alert */
 
-const { remote } = require('electron');
+const { ipcRenderer } = require('electron');
 
-const updater = remote.require('electron-simple-updater');
+main();
 
-setText('version', updater.version);
-setText('build', updater.buildId);
-attachUiHandlers();
-attachUpdaterHandlers();
+function main() {
+  ipcRenderer.invoke('getVersion').then(res => setText('version', res));
+  ipcRenderer.invoke('getBuild').then(build => setText('build', build));
+
+  attachUiHandlers();
+  attachUpdaterHandlers();
+}
 
 function attachUiHandlers() {
-  const btnUpdate        = document.getElementById('btn-update');
-  const btnInstall       = document.getElementById('btn-install');
+  const btnUpdate = document.getElementById('btn-update');
+  const btnInstall = document.getElementById('btn-install');
   const chkAutomatically = document.getElementById('automatically');
 
   btnUpdate.addEventListener('click', () => {
-    updater.checkForUpdates();
+    ipcRenderer.invoke('checkForUpdates');
     document.body.classList.add('update-downloading');
   });
 
   btnInstall.addEventListener('click', () => {
-    updater.downloadUpdate();
+    ipcRenderer.invoke('downloadUpdate');
   });
 
   chkAutomatically.addEventListener('change', function onChange() {
-    updater.setOptions('autoDownload', this.checked);
+    ipcRenderer.invoke('setOption', 'autoDownload', this.checked);
   });
 }
 
 function attachUpdaterHandlers() {
-  updater.on('update-available', onUpdateAvailable);
-  updater.on('update-downloading', onUpdateDownloading);
-  updater.on('update-downloaded', onUpdateDownloaded);
-  updater.setOptions('logger', {
-    info(text) { log('info', text) },
-    warn(text) { log('warn', text) },
+  ipcRenderer.on('updater-event', (_, eventName, ...args) => {
+    console.log({ eventName, args });
+
+    switch (eventName) {
+      case 'update-available': return onUpdateAvailable(args[0]);
+      case 'update-downloading': return onUpdateDownloading();
+      case 'update-downloaded': return onUpdateDownloaded();
+      case 'update-log': return log(...args);
+      default: return null;
+    }
   });
 
   function onUpdateAvailable(meta) {
@@ -52,14 +59,14 @@ function attachUpdaterHandlers() {
 
   function onUpdateDownloaded() {
     if (confirm('The app has been updated. Do you like to restart it now?')) {
-      updater.quitAndInstall();
+      ipcRenderer.invoke('quitAndInstall');
     }
   }
 
-  function log(level, text) {
+  function log(level, ...texts) {
     const logMessages = document.getElementById('log-messages');
     const p = document.createElement('p');
-    p.appendChild(document.createTextNode(`[${level}] ${text}`));
+    p.appendChild(document.createTextNode(`[${level}] ${texts.join(' ')}`));
     logMessages.appendChild(p);
   }
 }
