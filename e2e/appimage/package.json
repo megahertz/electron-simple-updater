@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "electron-builder": "^21.2.0",
-    "electron-simple-publisher": "^0.6.3"
+    "electron-builder": "^23.3.3",
+    "electron-simple-publisher": "^2.0.1"
   }
 }
